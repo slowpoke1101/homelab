@@ -1,4 +1,4 @@
-## memos
+## memos <img src="images/memos.png" alt="png icon" width="24" height="24">
 
 - self-hosted replacement for apple notes
 - running on docker VM(netopia)

@@ -1,4 +1,5 @@
-## stirling-PDF
+## stirling-PDF <img src="images/stirling.png" alt="png icon" width="24" height="24">
+
 
 - self-hosted PDF editor
 - running on docker VM(netopia)

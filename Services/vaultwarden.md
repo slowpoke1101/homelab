@@ -1,4 +1,4 @@
-## vaultwarden
+## vaultwarden <img src="images/vaultwarden.png" alt="png icon" width="24" height="24">
 
 - self-hosted replacement for apple keychain
 - running on docker VM(netopia)

@@ -1,4 +1,4 @@
-## immich
+## immich <img src="images/immich.png" alt="png icon" width="24" height="24">
 
 - self-hosted replacement for apple photos
 - running on docker VM(netopia)
