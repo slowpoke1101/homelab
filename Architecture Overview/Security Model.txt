@@ -1,0 +1,11 @@
+Security Model
+
+Inter‑VLAN firewalling: OPNsense enforces strict rules between Prod4, Mgmt11, IoT99, and LAN3. Only required ports are opened.
+
+Zero‑trust admin access: OPNsense, TrueNAS, Proxmox, Netgear GUI's are restriced to Workstation. No other devices can access the firewall or management interfaces.
+
+IDS rulesets: Basic intrusion detection is enabled to monitor suspicious traffic patterns
+
+Service isolation: Docker VM is isolated in VLAN4; TrueNAS is isolated in VLAN11; IoT devices are fully contained in VLAN99
+
+Remote Access: Tailscale replaced Wireguard + port forward. Only  OPNsense and iOS on the tailnet and iOS has access only to trueNAS SMB and Docker VM web apps(Immich, VaultWarden, memos, etc)

@@ -1,0 +1,19 @@
+wget https://github.com/prometheus/node_exporter/releases/latest/download/node_exporter-*.linux-amd64.tar.gz
+tar xvf node_exporter-*.tar.gz
+sudo mv node_exporter*/node_exporter /usr/local/bin/
+sudo nano /etc/systemd/system/node_exporter.service
+[Unit]
+Description=Node Exporter
+After=network.target
+
+[Service]
+User=root
+ExecStart=/usr/local/bin/node_exporter
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+sudo systemctl daemon-reload
+sudo systemctl enable --now node_exporter
+10.1.1.x:9100

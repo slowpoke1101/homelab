@@ -1,0 +1,30 @@
+MAKE SURE TO APPLY BEFORE MOVING ON TO EACH STEP
+created vlans interfaces - devices- vlan- add: tags 3, 4, 11, 22, 50, 99. parent device: ue0
+go to assignments give it a description and add
+click on each interface in the assignments window to enable. ipv4 configuration type: static, mtu 1500, add ipv4 .1 address assignment for each network, e.g. 10.1.88.1
+go to services- dnsmasq- dhcp ranges you should see the vlan networks. edit to add interface name, set dhcp pool, subnet mask, lease time, etc.
+Lastly go to firewall- rules. i added open connections for the moment just to test.
+
+gs308e switch
+the gui is pretty self explanatory. i chose the most advance vlan config option,
+it lets you create a vlan based on a tag and assign them to ports either tagged untagged or excluded. then it also lets you change the pvid for each port. 
+
+
+vlan3 trusted     10.1.3.0/25 255.255.255.128
+vlan4 production  10.4.4.0/24 255.255.255.0
+vlan11 management 10.1.11.0/25 255.255.255.128
+vlan22 DMZ        10.1.22.0/25 255.255.255.128
+vlan50 sandbox    10.1.50.0/25 255.255.255.128
+vlan88 IOT        10.1.88.0/25 255.255.255.128
+vlan99 dolguldur  10.1.99.0/25 255.255.255.128
+
+switch ports:
+1 - opnsense - pvid1  - untagged:1   tagged:3,4,11,22,50,88,99  router uplink
+2 - empty    - pvid1  - untagged:1                              console
+3 - flint1   - pvid3  - untagged:3   tagged:88                  for testing
+4 - empty    - pvid1  - untagged:1                              console
+5 - pi4      - pvid11 - untagged:11                             backup
+6 - m715q    - pvid11 - untagged:11                             NAS
+7 - m75q     - pvid11 - untagged:11  tagged:4,22,50             proxmox
+8 - flint2   - pvid99 - untagged:99  tagged:88                  dolguldur(vikaNET)
+

@@ -1,0 +1,161 @@
+#wipe ssd
+#create filesystem table
+sudo parted /dev/sda mklabel gpt
+#create partition
+sudo parted -a optimal /dev/sda mkpart primary ext4 0% 100%
+lsblk -f # should show /dev/sda1
+#format partition
+sudo mkfs.ext4 /dev/sda1
+lsblk -f 
+
+install truenas to m715q 
+create zfs pool on 1tb sata /mnt/Tank/NASgul
+create user banana give builtin_admin permissions
+enable smb and create share on a subdirectory of Tank NOT ROOT DIRECTORY(Tank)
+create new dataset multiprotocol option and chose nfs. smb wont work for npm and other containers. also you must set maprootuser - root and maprootgroup - wheel in order for docker to be able to write to the dataset
+#to mount nfs share
+showmount -e 10.1.1.132
+sudo mount -t nfs -o rw,sync 10.1.1.132:/mnt/NASgul /srv/nfs
+#add to fstab
+10.1.1.132:/mnt/NASgul /srv/nfs nfs rw,sync 0 0
+
+
+install pi os to pi4+hdd(in enclosure)
+sudo apt install cifs-utils
+#test
+sudo mount -t cifs -o username=banana,password=cinder //10.4.4.7/NASgul /mnt/truenas
+sudo mkdir -p /mnt/truenas
+sudo mkdir -p /srv/backup
+sudo nano /etc/fstab
+#paste
+//10.4.4.7/NASgul /mnt/truenas cifs username=marco,password=YOURPASS,vers=3.0,uid=1000,gid=1000,iocharset=utf8,file_mode=0775,dir_mode=0775 0 0
+#validate
+sudo mount -a
+#sync
+sudo rsync -avh --info=progress2 /mnt/truenas/ /srv/backup/
+#manual sync (mirror)
+sudo rsync -avh --delete-after --info=progress2 /mnt/truenas/ /srv/backup/
+# automate 3am backup with cron and rsync
+sudo nano /usr/local/bin/truenas-backup.sh
+#paste
+
+#!/bin/bash
+rsync -avh --delete-after /mnt/truenas/ /srv/backup/
+
+#make it executable
+sudo chmod +x /usr/local/bin/truenas-backup.sh
+#add to cron job
+sudo crontab -e
+0 3 * * * /usr/local/bin/truenas-backup.sh
+#test manually 
+sudo /usr/local/bin/truenas-backup.sh
+#check next day
+grep CRON /var/log/syslog
+#if permission denied on copying some files
+sudo chown -R root:root /srv/backup
+sudo chmod -R 755 /srv/backup
+
+
+install proxmox on m75q
+chose raid0 zfs instead of ext4
+google proxmox post install script and run it, it wont work so you'll have to manually update the repository
+cd /etc/apt/sources.list.d/
+rm all lists (ceph, enterprise, etc)
+create pve-no-subscription.list
+sudo nano pve-nosubscription.list
+#paste
+deb http://212.224.123.79/debian/pve bookworm pve-no-subscription
+# now you can run apt-get update
+# to add sata drive to ui
+mkdir /mnt/sata
+nano /etc/fstab
+# add
+/dev/sda1   /mnt/sata   ext4   defaults  0 2
+mount -a
+# to add truenas share
+datacenter - storage - add - smb/nfs - input network info/login credentials for truenas
+# to add isos 
+datacenter - <NODE> - storage - local - iso images - import
+# create vm settings for ubuntu server
+general and os are straightforward
+system: machine - q35, BIOS ovmf uefi, 
+disks: bus/device - virtlO block, cache - writeback, check discard
+cpu: type - host
+memory: uncheck ballooning device
+sudo apt install qemu-guest-agent
+
+#mount truenas at boot
+sudo mkdir -p /srv/share
+sudo nano /etc/fstab
+#paste
+//10.4.4.7/NASgul /srv/share cifs username=marco,password=YOURPASS,vers=3.0,uid=1000,gid=1000,iocharset=utf8,file_mode=0775,dir_mode=0775 0 0
+#validate
+sudo mount -a
+
+#install docker
+#install dependencies
+sudo apt update
+sudo apt install ca-certificates curl gnupg
+#add dockers official gpg key
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+#add docker repo, first find os version codename
+cat /etc/os-release #find version codename and add to the end of URL
+#ubuntu jammy
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/<ADD VERSION CODENAME HERE> stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+#update new repository and install 
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# enable on boot
+sudo systemctl enable docker
+sudo systemctl start docker
+# add user to docker group to avoid having to type sudo
+sudo usermod -aG docker <username>
+
+#to clear images
+docker images
+docker image rm <image id>
+
+so far ive recreated everything except Heimdall and memos
+i imported vaultwarden container and it's up.
+# go to SSL Certificates > Add SSL Certificate > custom > upload .crt .key .pem and use the created wildcard for proxy entries
+#MUST CREATE DNS REWRITE for each proxy host. go to adguard and add them
+# ON NPM add rate limiting go to proxy host advanced add 
+#limit_req zone=one burst=10 nodelay; # or burst=5 is safer
+#above line broke the tls connection, remove it
+# add security headers: EDIT A PROXY HOST > ADVANCED paste below
+add_header X-Frame-Options "SAMEORIGIN" always;
+add_header X-XSS-Protection "1; mode=block" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "no-referrer-when-downgrade" always;
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+# add audit loggig: EDIT A PROXY HOST > ADVANCED add
+access_log /data/logs/adguard_access.log;
+error_log /data/logs/adguard_error.log;
+
+on joe have nfs at /mnt/nfs and smt at /mnt/smb
+
+node-exporter is running on the host
+Grafana wont come up and will restarting unless you 
+sudo chown -R 472:472 Grafana
+Grafana's dns is fucked it says bad gateway when searching for dashboard imports
+#to manually download the json file
+https://grafana.com/api/dashboards/1860/revisions/latest/download
+
+nfs was too glitchy with several containers so i will switch my strategy
+will store container data on the sata inside the proxmox node and the just back up the container data to the nas, at the same time ill point, for example, immich data and the like to the nfs share
+
+created vmdisk on sata for joe, scsi 100gb formatted and mounted at /srv/sata, entry added to fstab /dev/sda1 /srv/sata ext4 defaults 0 2
+
+will transfer containers, apply permissions, reconfigure directories and deploy
+everything is up and goodie, dashboards set and node exporte installed on proxmox node and scraping. i redeployed immich so that photo uploads go to /mnt/nfs/library and made a backup script like on TK where cron copies /srv/sata, which contains monitor and service folders, to /mnt/nfs/containers at 2am and then tk will rsync them both at 3am
+
+successfully created several vlans and a trunked port to proxmox with the flint 1
+the same EXACT steps used on the flint2 would not work, it would fail to create br-lan.1 I rebuilt the flint1 network 3 times using the same steps just to be sure and then tried the same deployment on the flint2 as well as different procedures to try to get it to work but no go. while practicing on opnsense i put my stuff back on the flint 2 and just used the glinet gui management to isolate iot, trusted, and core(used guest interface in this case). i changed guest firewall to lan but put forward: reject so that they cannot communicate outside their subnet, i allowed forward from lan to guest(remember this is core lol) so my devices can reach my servers. i did it this way because i know from before thtat the glinet tailscale will advertise lan subnets without breaking like it did when i manually advertised a vlan subnet. this worked i didn't need to create a firewall rule this time allowing forward from tailscale > core. i changed dns on the tailscale console to point to the flint2, deleted flint1 and tested remote access all G baby.
+
+I have opnsense installed on the nuc now. i will plug it into the flint2 in the meantime to test and break and figure out how to configure it the way i want/need to to replace the flint2 as the main gateway. i want to have several vlans for myself, and 2 separate ones for iot and for my wifes devices. apparently there might be wan side quirks to opnsense so i'll have to figure that out.
+
+UPDATE:had to add vlan11 to proxmox- sora- network in order to reach the management gui on my management network 10.1.11.0/25
+
+opnsense deployment went well i was nervous haha but when i jumped in i found that everything that ive done up to this point had prepared me very well to handle the vlan creation on opnsense, dhcp, dns and firewall rules as well. and because i had planned out the switch ports before hand, configuring pvid, trunked, and untagged ports was fun and everything worked the first try :)))) i tested every port and got an ip in the correct network each time. i also tested proxmox's trunk port by creating vms on each tag and received the correct ip in each network. quite exhilarating to do for the first time im super hyped. Next step is to implement my firewall rules and test segmentation man im so excited.

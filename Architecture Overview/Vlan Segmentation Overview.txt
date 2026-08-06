@@ -1,0 +1,25 @@
+Vlan Segmentation Overview
+
+VLAN1:
+Network: LAN - 192.168.33.0/25
+hosts: OPNsense, NETGEARswitch
+
+VLAN3:
+Network: LAN3 - 10.1.33.0/25
+hosts: Home network for daily use and TVs.
+
+VLAN4:
+Network: Production4 - 10.4.4.0/24
+hosts: Docker VM, future production vms/containers
+
+VLAN11:
+Network: Management11 - 10.1.11.0/25
+hosts: trueNAS, proxmox, raspberry pi 4, administrative access
+
+VLAN50:
+Network: Sandbox50 - 10.1.50.0/25
+hosts: isolated sandbox for testing
+
+VLAN99:
+Network: IOT99 - 10.1.99.0/25
+hosts: untrusted network for smart devices and guests

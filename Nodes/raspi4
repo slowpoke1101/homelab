@@ -1,0 +1,8 @@
+raspberry pi 4 8gb ram 1tb hdd(in usb enclosure for OS)
+backup node, emergency access console, rsyslog server, snmp collector
+raspberry pi OS(debian 13 trixie)
+vlan 11: 10.1.11.9
+services: rsync, rsyslog, snmp trap, basic enumeration tools, backup scripts
+key configurations:
+i struggled to find a purpose for this node after being able to fill all my key network roles with the newly aquired hardware
+i landed on running it as a backup/log/monitoring/emergency console device.
