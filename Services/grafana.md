@@ -9,4 +9,4 @@
 - future updates: add exporters from truenas and opnsense nodes.
                   add log dashboard with syslogs collected by rpi4 node
 ![webapp route](images/webapp-route.png)
-![memos dashboard](images/grafanadash.png)
+![grafana dashboard](images/grafanadash.png)
