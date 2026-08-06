@@ -1,8 +1,8 @@
-## vaultwarden
+## stirling-PDF
 
-- self-hosted replacement for apple keychain
+- self-hosted PDF editor
 - running on docker VM(netopia)
 - exposed through nginx proxy manager
 - accessible from LONS and izzy only, local or remote(tailscale)
 ![webapp route](images/webapp-route.png)
-![vaultwarden dashboard](images/vaultwardendash.png)
+![memos dashboard](images/stirlingdash.png)
