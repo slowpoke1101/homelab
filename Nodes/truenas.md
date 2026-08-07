@@ -1,9 +1,29 @@
-thinkcenter m715q gen2 16gb ra 2600mhz 256gb nvme 1tb sata ssd
-NAS
-trueNAS v25.10.4
-vlan11: 10.1.11.7
-services: nfs, smb@ /mnt/TANK/NASgul
-key configurations: 
-the purpose of this node, and all other nodes, was to expand my services to purpose build devices.
-i tried to configure as many network services on the raspi4 as it could handle but was obviously limited. 
+# Node Profile — Joe
+
+**Hardware:** Lenovo ThinkCentre M715q Gen2 
+**Upgrades:** 1tb Sata SSD, 256gb NVMe, 16gb RAM 
+**Role:** NAS  
+**Version:** TrueNAS Scale v25.10.4  
+**Network:** VLAN11 → 10.1.11.7  
+
+---
+
+## Services on Joe
+NFS, SMB shares at /mnt/TANK/NASgul
+
+**Key configurations:** 
+
+---
+
+## Purpose
+This node provides network attatched storage for my personal devices, as well as backups for my  
+containers, configurations, documentation, and more.
+
+---
+
+## Future Improvements
+Snapshots, a different back up solution than rsync scripts on separate hosts
+
+---
+
 ![TrueNAS Console](images/truenas.png)

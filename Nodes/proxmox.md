@@ -8,7 +8,7 @@
 
 ---
 
-## 🖥️ Virtual Machines
+## Virtual Machines
 - netopia (Docker VM)
 - bot1
 - bot2
@@ -17,7 +17,7 @@
 
 ---
 
-## 🧱 Services on netopia
+## Services on netopia
 AdGuardHome, Dockge, Draw.io, Gitea, Grafana, Homarr, Immich, iPerf3, LibreSpeed, Memos,  
 Nginx Proxy Manager, OpenSpeedTest, Uptime Kuma, StirlingPDF, Vaultwarden, cAdvisor, Node Exporter, VictoriaMetrics
 
@@ -25,12 +25,12 @@ Nginx Proxy Manager, OpenSpeedTest, Uptime Kuma, StirlingPDF, Vaultwarden, cAdvi
 
 ---
 
-## 💡 Purpose
+## Purpose
 This node exists because early on I found an affinity for virtualization but was limited by hardware.
 
 ---
 
-## 🔮 Future Improvements
+## Future Improvements
 Sandbox pentesting, LXC containers, high availability, clustering.
 
 ---
