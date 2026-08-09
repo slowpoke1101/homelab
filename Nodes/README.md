@@ -4,6 +4,7 @@
 - Thinkcenter tiny m75q gen 2 (compute node/hypervisor)
 - Thinkcenter tiny m715q gen 2 (network attatched storage)
 ## NOT in picture:
+- Raspberry Pi 4 + 1tb HDD in usb enclosure (backup node)
 - gli.net Flint AX1800 router(in access point mode)
 - gli.net Flint MT6000 router(in access point mode)
 ##

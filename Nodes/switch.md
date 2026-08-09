@@ -1,7 +1,7 @@
 # Node Profile — Tai
 
-**Hardware:** NETGEAR gs308e managed switch 
-**Upgrades:** 
+**Hardware:** NETGEAR gs308e managed switch  
+**Upgrades:**  
 **Role:** Network Switch  
 **Version:** v4  
 **Network:** VLAN1 → 192.168.33.2(web ui)  
