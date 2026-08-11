@@ -20,39 +20,25 @@ tar xvf node_exporter-*.tar.gz
 sudo rm node_exporter-*.tar.gz
 ```
 
-# move into binary folder
+# move into zfs pool folder
 ```
-sudo mv node_exporter*/node_exporter /usr/local/bin/
-```
-
-# paste in text editor
-```
-sudo vi /etc/systemd/system/node_exporter.service
+sudo mv node_exporter*/node_exporter /mnt/Tank/<dataset>
 ```
 
-```
-[Unit]
-Description=Node Exporter
-After=network.target
+# Back in the TrueNAS web ui
 
-[Service]
-User=root
-ExecStart=/usr/local/bin/node_exporter
-Restart=always
-RestartSec=5
+go to System > settings > advanced settings > init/shutdown scripts
+click add
+>Description: Node Exporter
+>Type: Command
+>Command:
+>nohup /mnt/tank/joe/node_exporter-1.12.1.linux-amd64/node_exporter > /dev/null 2>&1 &
+>When: Post Init
+>Enabled: check yes
+>Timeout:10
 
-[Install]
-WantedBy=multi-user.target
-```
-
-# restart daemons and enable the new service and check status
-```
-sudo systemctl daemon-reload
-sudo systemctl enable --now node_exporter
-sudo systemctl status node_exporter
-```
-
-##
+# check at
+http://10.1.11.7:9100/metrics
 
 ON DOCKER VM(netopia)  
 ```
