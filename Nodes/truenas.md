@@ -16,13 +16,13 @@ NFS, SMB shares at /mnt/TANK/NASgul
 ---
 
 ## Purpose
-This node provides network attatched storage for my personal devices, as well as backups for my  
+This node provides network attatched storage for my personal  devices, as well as backups for my  
 containers, configurations, documentation, and more.
 
 ---
 
 ## Future Improvements
-Snapshots, a different back up solution than rsync scripts on separate hosts
+Snapshots, a different back up solution than rsync scripts on  separate hosts
 
 ---
 
