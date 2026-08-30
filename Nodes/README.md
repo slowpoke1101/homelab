@@ -10,4 +10,4 @@
 ##
 i plan on getting a small 6-8u 10 inch rack or cabinet
 to mount all of this and any future additions
-![physical hardware](images/physical-hardware.jpeg)
+![physical hardware|400](images/physical-hardware.jpeg)
