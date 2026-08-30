@@ -1,0 +1,6 @@
+after building the mini rack, my vms on sandbox50 network were getting apipa addresses.
+for context, the vms run on a proxmox host who's switch port is tagged with 3, 4, 11, 50, 99.
+all networks other than 50 were working fine, my production services and apps were all up and reachable which meant that the vlan paths and interface configs were working, but why did only one network break? after pinging and testing network paths/connections i was vexed.  
+i recently updated opensense AND proxmox and checked to make sure proxmox vlan-aware was still active, i unchecked it, tested, and checked it.  
+i finally thought, it must be somewhere where that could mention the vlan tags individually. then i realized duh, when i build the rack i switched opnsense's switch port to a previous access port for vlan50, and when i configured it as a trunked port for all my vlans, i changed the pvid(native vlan) to 3 untagged (which is my LAN3 interface) AND left 50 untagged (as it was an access port for vlan 50 previously). foolish! haha so there were 2 untagged vlans and i think it defaulted to 3 and was silently dropping packets destined for 50 from the opnsense.
+lesson learned: remember to double check tagged and untagged vlans/ports after making any switch port change.
