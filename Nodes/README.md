@@ -17,6 +17,6 @@ I plan on upgrading to a poe switch, getting another rpi4 and 2 poe hats for the
 my flint routers with a real wireless access point, im looking at the tpling eap670, that way i can reduce the  
 clutter of power cords ha. also i saw a cool 1U 10inch screen that i was thinking of getting to display node metrics from  
 one of the pi's :D  
-<img src="images/rack1.jpeg" alt="rack1" width="50%">
-<img src="images/rack2.jpeg" alt="rack2" width="50%">
-<img src="images/rack3.jpeg" alt="rack3" width="50%">
+<img src="images/rack1.JPG" alt="rack1" width="50%">
+<img src="images/rack2.JPG" alt="rack2" width="50%">
+<img src="images/rack3.JPG" alt="rack3" width="50%">
