@@ -84,19 +84,19 @@ They will now appear in the left‑side menu under Interfaces.
 
 Navigate: Interfaces → [Your VLAN Interface]
 
-<img src="images/interfaces1.png" width="50%">
+<img src="images/interface1.png" width="50%">
 
     Check Enable
 
     IPv4 Configuration Type: Static IPv4
 
-<img src="images/interfaces2.png" width="50%">
+<img src="images/interface2.png" width="50%">
 
     IPv4 Address: 10.1.99.1/26 (example)
 
 Click Save.
 
-<img src="images/interfaces3.png" width="50%">
+<img src="images/interface3.png" width="50%">
 6. Configure DHCP Pools
 
 Navigate: Services → Dnsmasq DNS & DHCP → DHCP Ranges  
