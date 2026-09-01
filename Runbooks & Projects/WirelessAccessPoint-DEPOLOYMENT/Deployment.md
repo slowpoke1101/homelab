@@ -28,8 +28,8 @@
 
     Select the Devices tab.
 
-<img src="images/navigationinterfaces.png" width="50%">
-<img src="images/navigationdevices.png" width="50%">
+<img src="images/navigationtointerfaces.png" width="50%">
+<img src="images/navigationtodevices.png" width="50%">
 
     Click Add device configuration.
 
@@ -93,7 +93,7 @@
 
     Go to Network > Wireless.
 
-<img src="images/navigationwireless.png" width="50%">
+<img src="images/navigationtowireless.png" width="50%">
 
     Find the 5 GHz radio and click Add.
 
