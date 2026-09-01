@@ -12,7 +12,7 @@ i plan on getting a small 6-8u 10 inch rack or cabinet
 to mount all of this and any future additions  
 <img src="images/physical-hardware.jpeg" alt="physical hardware" width="25%">
 ##
-got the rack! i was able to order some 3d printed mounts for my thinkcenters and switch. the rpi4 is in the back  
+I passed the Network+! also, i got the rack! i was able to order some 3d printed mounts for my thinkcenters and switch. the rpi4 is in the back  
 I plan on upgrading to a poe switch, getting another rpi4 and 2 poe hats for the pi's as well as replacing  
 my flint routers with a real wireless access point, im looking at the tpling eap670, that way i can reduce the  
 clutter of power cords ha. also i saw a cool 1U 10inch screen that i was thinking of getting to display node metrics from  
