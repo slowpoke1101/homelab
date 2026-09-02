@@ -30,7 +30,7 @@ step 3 trunk and access ports
 you will have had to have previously thought out your switch port layout before beginning to configure  
 the pvid table. in this example i am just adding a tagged vlan to trunked ports for the router and wap  
 so that the wap can broadcast the newly added IOT99 network.  
-you can refer to this for my final [switchport layout](Nodes/switch.md)  
+you can refer to this for my final [switchport layout](https://github.com/slowpoke1101/homelab/blob/master/Nodes/switch.md)  
 <img src="images/pvidtable.png">  
 
 with these steps in place you should now be able to access whatever subnets you've configured  
