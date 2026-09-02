@@ -31,7 +31,7 @@ you will have had to have previously thought out your switch port layout before 
 the pvid table. in this example i am just adding a tagged vlan to trunked ports for the router and wap  
 so that the wap can broadcast the newly added IOT99 network.  
 you can refer to Nodes/switch.md for my final switch port layout  
-<img src="images/pvidtable.png>  
+<img src="images/pvidtable.png">  
 
 with these steps in place you should now be able to access whatever subnets you've configured  
 to be available through physical links in your switch, the final step is to configure a  
