@@ -20,3 +20,10 @@ one of the pi's :D
 <img src="images/rack1.JPG" alt="rack1" width="50%">
 <img src="images/rack2.JPG" alt="rack2" width="50%">
 <img src="images/rack3.JPG" alt="rack3" width="50%">
+
+##
+I've found a poe+ switch and got another rpi4 4gb plus 2x rpi4 poe+ hats. oh boy im really excited to get everything set up. i also did some  
+research and found a usb to sata adapter that supposedly handles power draw well when booting the pi OS from a sata hdd or ssd(which is how  
+i've been running my lone rpi4 all this time). ill get a picture up as soon as everything arrives and i get them in the mount. i also found  
+a cool .5U 10inch mount for 2x 2.5inch drive bays on ebay that i ordered to house both the pi's boot drives. everything is gonna look pretty  
+nice hopefully.
