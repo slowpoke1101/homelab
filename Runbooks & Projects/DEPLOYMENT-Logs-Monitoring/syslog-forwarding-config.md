@@ -17,11 +17,11 @@ TrueNAS
 
 Navigate to System > Advanced Settings  
 find the Syslog box and click Configure  
-<img src="images/navigationtosyslog.png>  
+<img src="images/navigationtosyslog.png">  
 
 Here you will enter your Syslog collector's IP address and port 514(default)  
 and save.
-<img src="images/truenas-syslog-config.png>  
+<img src="images/truenas-syslog-config.png">  
 
 ## 
 Linux
