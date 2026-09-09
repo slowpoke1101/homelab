@@ -1,10 +1,10 @@
 # Node Profile — Sora
 
 **Hardware:** Lenovo ThinkCentre M75q Gen2  
-**Upgrades:** 500 GB NVMe, 500 GB SATA SSD, 48 GB 3200 MHz RAM  
+**Upgrades:** 500 GB NVMe, 48 GB 3200 MHz RAM  
 **Role:** Proxmox Node  
 **Version:** PVE v8.2.1  
-**Network:** VLAN11 (trunked ports 3, 4, 50, 99) → 10.1.11.6  
+**Network:** VLAN11 management (Tai port 2; VLANs 1, 4, 50, 88, and 99 tagged) → 10.1.11.6  
 
 ---
 
@@ -18,8 +18,8 @@
 ---
 
 ## Services on netopia
-AdGuardHome, Dockge, Draw.io, Gitea, Grafana, Homarr, Immich, iPerf3, LibreSpeed, Memos,  
-Nginx Proxy Manager, OpenSpeedTest, Uptime Kuma, StirlingPDF, Vaultwarden, cAdvisor, Node Exporter, VictoriaMetrics
+AdGuard, Gitea, Immich, LibreSpeed, iPerf3, Memos, Nginx Proxy Manager, StirlingPDF,  
+Uptime Kuma, Vaultwarden, Grafana, cAdvisor, and Node Exporter
 
 **Key configurations:** 
 

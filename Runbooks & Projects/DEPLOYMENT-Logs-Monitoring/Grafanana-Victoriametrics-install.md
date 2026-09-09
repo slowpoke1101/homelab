@@ -1,8 +1,8 @@
 ## Description
-installing Grafana and Victoriametrics, a powerful metrics monitoring suite, on Docker
+installing Grafana and VictoriaMetrics, a metrics monitoring suite, on Docker
 
 ## Purpose
-Full observability of node metrics on a centralized dashboard
+Full observability of node metrics on a centralized dashboard. In the current layout, VictoriaMetrics runs on observer and Grafana runs on netopia.
 
 ##
 

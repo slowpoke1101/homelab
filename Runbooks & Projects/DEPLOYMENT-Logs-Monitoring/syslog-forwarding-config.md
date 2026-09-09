@@ -1,6 +1,6 @@
 ## Description
-Configure nodes to send logs → scilab  
-Each node forwards syslog to rpi4's IP on port 514.
+Configure nodes to send logs → observer
+Each node forwards syslog to observer's IP on port 514.
 
 ##
 OPNsense  
@@ -46,4 +46,4 @@ paste in at the bottom under Rules
 and save
 
 ##
-now all nodes send logs to rpi4
+now all nodes send logs to observer

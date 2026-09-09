@@ -55,15 +55,15 @@ sudo systemctl status node_exporter
 
 ##
 
-ON DOCKER VM(netopia)  
+ON OBSERVER (metrics collector)  
 ```
-ssh banana@netopia.hub #enter password
+ssh banana@<observer-address> #enter password
 ```
 
 # go to container folder and edit prometheus.yml to add new node exporter entry
 
 ```
-cd /srv/sata/monitor/victoriametrics
+cd /srv/observ/victoriametrics
 sudo vi prometheus.yml
 ```
 

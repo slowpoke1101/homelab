@@ -4,8 +4,8 @@ DNS & DHCP: OPNsense provides dnsmasq DHCP and unboundDNS with domain overrides
 
 Reverse Proxy Layer: Nginx Proxy Manager handles TLS termination with self-signed certifications, internal routing, and service exposure
 
-Monitoring stack: Grafana, VictoriaMetrics, Node Exporter, and cAdvisor provide metrics, dashboards, and container visibility. UptimeKuma provides uptime alerts via discord
+Monitoring stack: observer runs VictoriaMetrics, Loki, and Promtail in Docker. Grafana, Node Exporter, and cAdvisor provide metrics, dashboards, and container visibility. Uptime Kuma provides uptime alerts via Discord.
 
-Backup & Storage: TrueNAS hosts SMB/NFS shares, snapshots and receives rsync backups from Docker VM. Raspi4 backup node receives rsync backups from TrueNAS
+Backup & Storage: Joe hosts SMB/NFS shares. netopia backs up its containers to Joe, and TK receives rsync backups from Joe twice daily.
 
 Application Services: immich, vaultwarden, memos, stirlingPDF, drawio, gitea, librespeed, iperf3

@@ -22,7 +22,7 @@ sudo rm node_exporter-*.tar.gz
 
 # move into zfs pool folder
 ```
-sudo mv node_exporter*/node_exporter /mnt/Tank/<dataset>
+sudo mv node_exporter*/node_exporter /mnt/TANK/<dataset>
 ```
 
 # Back in the TrueNAS web ui
@@ -32,7 +32,7 @@ click add
 >Description: Node Exporter
 >Type: Command
 >Command:
->nohup /mnt/tank/joe/node_exporter-1.12.1.linux-amd64/node_exporter > /dev/null 2>&1 &
+>nohup /mnt/TANK/joe/node_exporter-1.12.1.linux-amd64/node_exporter > /dev/null 2>&1 &
 >When: Post Init
 >Enabled: check yes
 >Timeout:10
@@ -40,15 +40,15 @@ click add
 # check at
 http://10.1.11.7:9100/metrics
 
-ON DOCKER VM(netopia)  
+ON OBSERVER (metrics collector)  
 ```
-ssh banana@netopia.hub #enter password
+ssh banana@<observer-address> #enter password
 ```
 
 # go to container folder and edit prometheus.yml to add new node exporter entry
 
 ```
-cd /srv/sata/monitor/victoriametrics
+cd /srv/observ/victoriametrics
 sudo vi prometheus.yml
 ```
 

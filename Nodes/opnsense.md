@@ -1,10 +1,10 @@
-# Node Profile - mimi
+# Node Profile - Mimi
 
-hardware - intel nuc7i5bnk  
-upgrades - 16gb ram 2133mhz, 256gb nvme, realtec 8156bg usb nic(LAN)  
+Hardware - Intel NUC7i5BNK  
+Upgrades - 16 GB RAM, 256 GB NVMe, Realtek Ugreen 2.5GbE USB NIC (WAN)  
 role - gateway/firewall</br>
 version - opnsense v26.1.11<br>
-networks: vlan1 trunked port with 3,4,11,50,99<br>
+Networks: VLAN 1 native LAN with VLANs 4, 11, 50, 88, and 99 tagged<br>
 
 ---
 

@@ -3,9 +3,9 @@ Configuring Flint OpenWRT router as a Wireless Access Point for separate vlans
 
 ## Purpose
 This is necessary to provide WiFi to my condo, since I am running a frankenstein router box, we would be restricted to  
-wired ethernet without this WAP. Also, before, I was using both the flint2 and flint1 routers as AP's for separate vlans  
-because I couldnt figure out how to propagate multiple vlans through a individual flint's wifi. I figured it out so now  
-i can manage multiple SSID's from one AP, these are the instructions.
+wired ethernet without this WAP. Before the current configuration, Flint2 and the former Flint1 were used as APs for separate VLANs.
+because I couldnt figure out how to propagate multiple vlans through an individual Flint's WiFi. I figured it out so now  
+I can manage multiple SSIDs from Flint2, these are the instructions.
 
 ##
 

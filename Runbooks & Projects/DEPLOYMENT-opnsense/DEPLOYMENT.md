@@ -92,7 +92,7 @@ Navigate: Interfaces → [Your VLAN Interface]
 
 <img src="images/interface2.png" width="50%">
 
-    IPv4 Address: 10.1.99.1/26 (example)
+    IPv4 Address: 10.1.99.1/25 (example)
 
 Click Save.
 
@@ -104,15 +104,15 @@ Click +.
 
 <img src="images/dhcprange.png" width="50%">
 
-Example for VLAN 99 (10.1.99.0/26):
+Example for VLAN 99 (10.1.99.0/25):
 
     Interface: IOT99
 
     Start: 20
 
-    End: 62
+    End: 126
 
-    Subnet Mask: 255.255.255.224
+    Subnet Mask: 255.255.255.128
 
     Lease Time: 43200 seconds
 

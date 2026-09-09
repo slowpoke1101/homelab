@@ -4,4 +4,4 @@ i got a new rpi4 and am running bot rpi's from poe hats now :)
 Gonna start keeping a changelog cos it's tough to keep up with all  
 the constant change as well as trying to fully document everything.  
 im keeping one pi as just a pure backup node and  
- moving monitoring and logs from netopia to the other pi
+ moved monitoring metrics and logs from netopia to observer

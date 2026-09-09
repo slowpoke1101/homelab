@@ -51,7 +51,7 @@ and click enable (more options will appear below)
 IPv4 Configuration Type: Static IPv4
 more options will appear below
 <img src="images/interfaces2.png" width="50%">
-IPv4 address: 10.1.99.1  
+IPv4 address: 10.1.99.1/25  
 This is where you will assign the ip address and subnet mask of your firewall for this interface
 click save  
 <img src="images/interfaces3.png" width="50%">
@@ -59,9 +59,9 @@ click save
 step 6 configure dhcp pools
 navigate to Services > Dnsmasq DNS & DHCP > DHCP ranges and click +
 Interface: IOT99 (choose the interfaces you need to configure dhcp pools on)
-Start address: 20 (whatever you like within your subnet range, mine is /26)
-End address: 62
-Subnet mask: 255.255.255.224 (this gives me 62 usable IP addresses)
+Start address: 20 (whatever you like within your subnet range, mine is /25)
+End address: 126
+Subnet mask: 255.255.255.128 (this gives me 126 usable IP addresses)
 Lease time: 43200(in seconds)
 click save  
 <img src="images/dhcprange.png" width="50%">

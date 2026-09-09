@@ -1,6 +1,6 @@
 # Node Profile — Tai
 
-**Hardware:** NETGEAR gs308e managed switch  
+**Hardware:** NETGEAR GS308EP managed switch with PoE+  
 **Upgrades:**  
 **Role:** Network Switch  
 **Version:** v4  
@@ -14,8 +14,8 @@
 ---
 
 ## Purpose
-This node enforces the vlan interfaces created on OPNsense.  
-provides access and trunk ports for devices as needed.
+This node carries the VLANs created on Mimi and provides access and trunk ports for devices as needed.  
+It powers TK and observer through their PoE+ hats.
 
 ---
 

@@ -1,4 +1,4 @@
-Install rsyslog on scilab (host)
+Install rsyslog on observer (host)
 bash
 
 sudo apt update
@@ -21,7 +21,7 @@ bash
 
 sudo systemctl restart rsyslog
 
- Configure nodes to send logs → scilab
+ Configure nodes to send logs → observer
 
 Each node forwards syslog to TK’s IP on port 514.
 
@@ -31,9 +31,9 @@ Each node forwards syslog to TK’s IP on port 514.
 
     Joe (TrueNAS): Syslog → TK IP
 
-    Docker VM: *.* @TK_IP:514
+    Docker VM (netopia): *.* @TK_IP:514
 
-    Tai (GS308E): Syslog → TK IP
+    Tai (GS308EP): Syslog → TK IP
 
     Flint APs: Syslog → TK IP (if supported)
 
@@ -120,7 +120,7 @@ filelog "syslog" {
   targets = ["/var/log/central/*/*.log"]
   labels = {
     job = "syslog"
-    host = "scilab"
+    host = "observer"
   }
 }
 
