@@ -1,7 +1,27 @@
+# Deploy Flint2 As A Wireless Access Point
+
 ## Description
-Configuring Flint OpenWRT router as a Wireless Access Point for separate vlans
+
+Configure Flint2 running OpenWrt as a wireless access point for separate VLANs.
 
 ## Purpose
+This provides WiFi to the condo. The switch and OPNsense remain responsible for VLAN transport, routing, DHCP, and firewalling.
+
+## VLAN And SSID Mapping
+
+| SSID | VLAN | Purpose |
+| --- | --- | --- |
+| Wife's LAN SSID | 88 | Wife's devices and latency-sensitive devices |
+| IoT/guest SSID | 99 | Smart-home and guest devices |
+
+## Prerequisites
+
+- The switch port has PVID 1 with VLANs 88 and 99 tagged.
+- OPNsense provides DHCP for VLANs 88 and 99.
+- Record the current Flint2 configuration before changing network mode.
+
+## Procedure
+
 This is necessary to provide WiFi to my condo, since I am running a frankenstein router box, we would be restricted to  
 wired ethernet without this WAP. Before the current configuration, Flint2 and the former Flint1 were used as APs for separate VLANs.
 because I couldnt figure out how to propagate multiple vlans through an individual Flint's WiFi. I figured it out so now  
@@ -126,3 +146,16 @@ I can manage multiple SSIDs from Flint2, these are the instructions.
 <img src="images/addwireless3.png" width="50%">
 
     Click Save.
+
+## Validation
+
+- Confirm Flint2 receives a management address on VLAN 1.
+- Connect a client to each SSID and confirm it receives an address from the expected VLAN.
+- Confirm a VLAN 88 client cannot reach VLAN 99 or restricted management services.
+- Confirm a VLAN 99 client cannot reach internal RFC1918 networks unless explicitly allowed.
+- Confirm the Fedora workstation can still reach the Flint2 management interface.
+
+## Recovery
+
+If Flint2 becomes unreachable, connect it to a known-good access port, restore the last
+working configuration, and verify the switch PVID and tagging before reconnecting it.

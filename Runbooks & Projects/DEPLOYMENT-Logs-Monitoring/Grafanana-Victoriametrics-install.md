@@ -1,21 +1,29 @@
-## Description
-installing Grafana and VictoriaMetrics, a metrics monitoring suite, on Docker
+# Deploy Metrics Collection And Grafana
 
 ## Purpose
-Full observability of node metrics on a centralized dashboard. In the current layout, VictoriaMetrics runs on observer and Grafana runs on the Docker VM.
 
-##
+Deploy VictoriaMetrics on observer and Grafana on the Docker VM. VictoriaMetrics stores
+metrics scraped from the homelab; Grafana provides the user-facing dashboards.
 
-create folder and yaml files
-```
+## Prerequisites
+
+- Docker Engine and Compose plugin installed on observer and the Docker VM.
+- observer can reach the node-exporter endpoints on OPNsense, TrueNAS, Proxmox, and the Docker VM.
+- The Docker VM can reach VictoriaMetrics on observer.
+- Create persistent directories and back them up before deployment.
+
+## Deploy VictoriaMetrics On observer
+
+```bash
 sudo mkdir -p /srv/observ/victoriametrics
-sudo chown -R /srv/observ/victoriametrics
+sudo chown -R "$USER":"$USER" /srv/observ/victoriametrics
 cd /srv/observ/victoriametrics
-sudo vi prometheus.yml
 ```
 
-paste in
-```
+Create `prometheus.yml` and replace `<observer-management-ip>` only where required by your
+live configuration. The node addresses below are the documented current addresses.
+
+```yaml
 global:
   scrape_interval: 15s
 
@@ -34,33 +42,40 @@ scrape_configs:
       - targets: ['10.1.11.7:9100']
   - job_name: 'opnsense-node'
     static_configs:
-      - targets: ['10.4.4.1:9100']
-```
-this scrapes the nodes at their exposed IP:Port for metrics
-
-save & quit  
-then create compose yaml
-```
-sudo vi docker-compose.yml
+      - targets: ['<opnsense-metrics-ip>:9100']
 ```
 
-paste in
-```
+Create `docker-compose.yml`:
+
+```yaml
 services:
   victoriametrics:
     image: victoriametrics/victoria-metrics:latest
     container_name: victoriametrics
     restart: unless-stopped
-    networks:
-      - electopia
     ports:
       - "8428:8428"
     volumes:
       - ./data:/victoria-metrics-data
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     command:
       - "--promscrape.config=/etc/prometheus/prometheus.yml"
+```
 
+Start the collector:
+
+```bash
+docker compose up -d
+curl http://localhost:8428/health
+```
+
+## Deploy Grafana On The Docker VM
+
+On the Docker VM, create the Grafana compose project using the existing Docker network
+used by Nginx Proxy Manager:
+
+```yaml
+services:
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -77,16 +92,30 @@ networks:
     external: true
 ```
 
-bring the container up and then down so that the grafana database is created
-```
+Start Grafana and open its web interface through the configured reverse-proxy hostname:
+
+```bash
 docker compose up -d
-docker compose down
+docker compose logs --tail=50 grafana
 ```
 
-give grafana permissions to the DB
-```
-sudo chown -R 472:472 /srv/observ/victoriametrics/grafana
+Add VictoriaMetrics as a Prometheus-compatible Grafana data source using:
+
+```text
+http://<observer-management-ip>:8428
 ```
 
-and finally bring the container up cleanly
-docker compose up -d
+## Validation
+
+- Confirm every target responds on `/metrics` from observer.
+- Open VictoriaMetrics and verify targets are being scraped.
+- Open Grafana and verify the data source reports success.
+- Confirm dashboards show OPNsense, TrueNAS, Proxmox, Docker VM, and cAdvisor data.
+- Confirm the reverse-proxy URL works from the Fedora workstation and permitted remote client.
+
+## Recovery
+
+If a target fails, test network reachability and the target's node-exporter service before
+changing VictoriaMetrics. If Grafana fails, inspect container logs and verify permissions
+on the `grafana` data directory. Restore persistent data from backup before recreating a
+container with destructive volume changes.

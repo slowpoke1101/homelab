@@ -71,18 +71,13 @@ sudo vi prometheus.yml
 ```
   - job_name: 'proxmox-node'
     static_configs:
-      - targets: ['10.1.11.x:9100']
+      - targets: ['10.1.11.6:9100']
 
 ```
 
-# restart the containers
+# restart VictoriaMetrics so it reloads the scrape configuration
 ```
-cd ..
-cd node-exporter
-docker compose restart
-cd ..
-cd victoriametrics
-docker compose restart
+docker compose restart victoriametrics
 ```
 
 # check https://grafana.docker-vm.hub
