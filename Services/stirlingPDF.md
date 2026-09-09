@@ -2,8 +2,8 @@
 
 
 - self-hosted PDF editor
-- running on docker VM(netopia)
+- running on the Docker VM
 - exposed through nginx proxy manager
-- accessible from LONS and izzy only, local or remote(tailscale)
+- accessible from iOS and Fedora only, local or remote(tailscale)
 ![webapp route](images/webapp-route.png)
 ![memos dashboard](images/stirlingdash.png)

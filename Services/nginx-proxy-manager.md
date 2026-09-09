@@ -1,9 +1,9 @@
 ## nginx proxy manager <img src="images/npm.png" alt="png icon" width="24" height="24">
 
 - reverse proxy server terminating https connections for my web apps and management ui's
-- running on docker VM(netopia)
+- running on the Docker VM
 - exposed through nginx proxy manager
-- accessible from LONS and izzy only, local or remote(tailscale)
+- accessible from iOS and Fedora only, local or remote(tailscale)
 - selfsigned wildcard cert for self-hosted apps
 - access list restricted to phone, workstation and management hosts
 ![webapp route](images/webapp-route.png)

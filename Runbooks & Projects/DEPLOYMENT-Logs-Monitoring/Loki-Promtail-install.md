@@ -23,19 +23,19 @@ sudo systemctl restart rsyslog
 
  Configure nodes to send logs → observer
 
-Each node forwards syslog to TK’s IP on port 514.
+Each node forwards syslog to backup-node's IP on port 514.
 
-    Mimi (OPNsense): Logging Targets → TK IP → UDP 514
+    OPNsense: Logging Targets → backup-node IP → UDP 514
 
-    Sora (Proxmox): *.* @TK_IP:514 in /etc/rsyslog.conf
+    Proxmox: *.* @BACKUP_NODE_IP:514 in /etc/rsyslog.conf
 
-    Joe (TrueNAS): Syslog → TK IP
+    TrueNAS: Syslog → backup-node IP
 
-    Docker VM (netopia): *.* @TK_IP:514
+    Docker VM: *.* @BACKUP_NODE_IP:514
 
-    Tai (GS308EP): Syslog → TK IP
+    switch (GS308EP): Syslog → backup-node IP
 
-    Flint APs: Syslog → TK IP (if supported)
+    Flint APs: Syslog → backup-node IP (if supported)
 
 
     services:

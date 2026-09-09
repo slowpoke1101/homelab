@@ -108,7 +108,7 @@ always good to double check block bogons and block private networks is
 enables on WAN
 navigate to Interfaces > [WAN]
 <img src="images/blockbogons.png" width="50%">
-For security I have SSH disabled on my Router, Wireless AP, Proxmox node, and  TrueNAS node as I have easy console access to them.
+For security I have SSH disabled on my router, wireless AP, Proxmox node, and TrueNAS node as I have easy console access to them.
 Navigate to System > Settings > Administration scroll down to Secure Shell  
 UNCHECK Enable Secure Shell  
 I noticed that by default ssh listens on ALL interfaces including WAN  

@@ -8,7 +8,7 @@ To add node metrics for Proxmox node to Grafana
 
 ON Proxmox NODE:  
 login to proxmox web ui as an root/admin the go to  
-datacenter > Sora(node) > shell
+datacenter > Proxmox node > shell
 
 # download node exporter(replace * with version number)
 ```
@@ -85,6 +85,6 @@ cd victoriametrics
 docker compose restart
 ```
 
-# check https://grafana.netopia.hub
+# check https://grafana.docker-vm.hub
 
 Dashboards > Node Exporter > Node(dropdown); select proxmox-node

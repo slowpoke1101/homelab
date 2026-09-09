@@ -2,7 +2,7 @@
 installing Grafana and VictoriaMetrics, a metrics monitoring suite, on Docker
 
 ## Purpose
-Full observability of node metrics on a centralized dashboard. In the current layout, VictoriaMetrics runs on observer and Grafana runs on netopia.
+Full observability of node metrics on a centralized dashboard. In the current layout, VictoriaMetrics runs on observer and Grafana runs on the Docker VM.
 
 ##
 
@@ -20,7 +20,7 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: 'netopia'
+  - job_name: 'docker-vm'
     static_configs:
       - targets: ['10.4.4.4:9100']
   - job_name: 'cadvisor'

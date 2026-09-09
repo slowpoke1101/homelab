@@ -32,7 +32,7 @@ click add
 >Description: Node Exporter
 >Type: Command
 >Command:
->nohup /mnt/TANK/joe/node_exporter-1.12.1.linux-amd64/node_exporter > /dev/null 2>&1 &
+>nohup /mnt/TANK/<dataset>/node_exporter-1.12.1.linux-amd64/node_exporter > /dev/null 2>&1 &
 >When: Post Init
 >Enabled: check yes
 >Timeout:10
@@ -70,6 +70,6 @@ cd victoriametrics
 docker compose restart
 ```
 
-# check https://grafana.netopia.hub
+# check https://grafana.docker-vm.hub
 
 Dashboards > Node Exporter > Node(dropdown); select truenas-node

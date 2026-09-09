@@ -1,4 +1,4 @@
-Im getting another rpi4 and wanted to remove the unused sata ssd from node sora(proxmox). i thought it would be as simple as  removing the hardware device from the only VM using it(netopia) as well as removing the local sata entry from Datacenter in  
+Im getting another rpi4 and wanted to remove the unused sata ssd from the Proxmox node. i thought it would be as simple as removing the hardware device from the only VM using it (the Docker VM) as well as removing the local sata entry from Datacenter in
 the Proxmox web UI. However, after doing this and removing the physical sata drive from the thinkcenter, the PVE failed.  
 i was able to ping the device but unable to reach the web UI. my guess was that something in the proxmox virtual environment  
 was expecting the sata mount, and startup was hanging because the sata was removed.  
