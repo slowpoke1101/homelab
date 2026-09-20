@@ -1,9 +1,9 @@
-Sanitization Notice
+## Sanitization Notice  
 
 All IP addresses, VLAN IDs, hostnames, network ranges, and device names in this repository are fictional placeholders.
 They do not represent my real home network.
-The architecture and documentation are real, but sensitive values have been intentionally altered.
-Homelab Overview
+The architecture and documentation are real, but sensitive values have been intentionally altered.  
+## Homelab Overview  
 
 The purpose of this homelab is to learn, experiment, and apply new concepts, functions, and technologies in a hands‑on environment. This iteration expands what I originally built with a Raspberry Pi 4 and a GL.iNet Flint router into a set of purpose‑built network devices.
 
