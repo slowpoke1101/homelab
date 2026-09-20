@@ -1,0 +1,27 @@
+#!/bin/bash
+
+LOGFILE="/var/log/truenas-backup.log"
+
+echo "backup started at $(date) dog" >> $LOGFILE
+
+mount -a
+
+# check smb /mnt/truenas
+if mountpoint -q /mnt/truenas; then
+    echo "bro, SMB mount OK: /mnt/truenas" >> $LOGFILE
+    rsync -avh --delete-after /mnt/truenas/ /srv/backup/ >> $LOGFILE 2>&1
+    echo "all G dude SMB backup finished at $(date)" >> $LOGFILE
+else
+    echo "bro, ERROR: SMB mount no go mang (/mnt/truenas). Skipping SMB backup." >> $LOGFILE
+fi
+
+# check nfs /mnt/nfs
+if mountpoint -q /mnt/nfs; then
+    echo "bro, NFS mount OK: /mnt/nfs" >> $LOGFILE
+    rsync -avh --delete-after /mnt/nfs/ /srv/backup2/ >> $LOGFILE 2>&1
+    echo "all G dude NFS backup finished at $(date)" >> $LOGFILE
+else
+    echo "bro, ERROR: NFS mount no go mang (/mnt/nfs). Skipping NFS backup." >> $LOGFILE
+fi
+
+echo "Backup script completed at $(date)" >> $LOGFILE

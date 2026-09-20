@@ -1,0 +1,12 @@
+firware - status - update - plugins - community packages - os-tailscale
+refresh page, go to VPN tailscale will have appeared, click enable and apply
+go to assignments and assign tailscale and give it a description
+define firewall rule for it then back to interfaces - tailscaleVPN - enable
+NOW go to tailscale.com console ADD DEVICE chose Linux server
+change key expiration then generate install script
+copy from "tskey" to the end and go back to opnsense and go to
+VPN - tailscale - authentication - click advanced and paste
+this was the end of it for me but if not you will have to copy the AuthURL and 
+go to that site to manually add it to the tailnet
+then under settings - advertised routes tab - add prod4 subnet and <truenasIP>/32 to enable access to management11>truenas ONLY. then check/approve them on tailscale console.
+

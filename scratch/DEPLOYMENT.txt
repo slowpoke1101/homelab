@@ -1,0 +1,888 @@
+Step 1: install docker
++++++++++
+#install dependencies
+sudo apt update
+sudo apt install ca-certificates curl gnupg
+#add dockers official gpg key
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+#add docker repo, first find os version codename
+cat /etc/os-release #find version codename and add to the end of URL
+#ubuntu jammy
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/<ADD VERSION CODENAME HERE> stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+#update new repository and install 
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# enable on boot
+sudo systemctl enable docker
+sudo systemctl start docker
+# add user to docker group to avoid having to type sudo
+sudo usermod -aG docker <username>
+# NEED TO LOGOUT for changes to take effect lol this tripped me up
+docker network create electopia
++++++++++++
+
+
+Step2 install samba:
+sudo apt update
+sudo apt install samba
+#create share directory (mount ssd later)
+sudo mkdir -p /srv/share
+sudo chown -R banana:banana /srv/share
+#add samba user
+sudo smbpasswd -a banana
+#edit the config
+sudo nano /etc/samba/smb.conf
+[global]
+   workgroup = WORKGROUP
+   server string = NASgul
+   security = user
+   map to guest = never
+   smb encrypt = required
+   server min protocol = SMB2
+   server max protocol = SMB3
+
+[share]
+   path = /srv/share
+   browseable = yes
+   read only = no
+   valid users = banana
+   force user = banana
+   create mask = 0664
+   directory mask = 0775
+#restart
+sudo systemctl restart smbd
+
+install pi os lite update and install server tools
+sudo apt install vim dnsutils iputils-ping net-tools traceroute curl wget tar zip unzip htop iftop bmon nethogs
+Follow steps to here and test shares from lons and izzy
+#locate disk with lsblk. mine in this case was sdb-sdb1
+#mount data drive to share
+sudo mount /dev/sdb1 /srv/share
+#check with ls /srv/share
+sudo chown -R banana:banana /srv/share
+#add it to /etc/fstab so it mounts on boot. run this to find the UUID
+sudo blkid /dev/sdb1 # look for UUID="--------"
+sudo vi /etc/fstab
+#add this line
+UUID="--------"  /srv/share  ext4  defaults,noatime  0  2
+#save exit and test, the next command should return nothing
+sudo mount -a
+sudo systemctl restart smbd
+#lons and izzy now see the data drive success
+# create minimal firewall rules allowing lons izzy and router only
+sudo iptables -I INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -I INPUT -s 10.4.4.1 -j ACCEPT
+sudo iptables -I INPUT -s 10.4.4.11 -j ACCEPT
+sudo iptables -I INPUT -s 10.4.4.8 -j ACCEPT
+sudo iptables -A INPUT -j DROP
+
+
+
+services:
+  adguardhome:
+    image: adguard/adguardhome:latest
+    container_name: adguardhome
+    restart: unless-stopped
+    networks:
+      - electopia
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+      - "3001:3001/tcp"
+    volumes:
+      - /srv/share/adguard/work:/opt/adguardhome/work
+      - /srv/share/adguard/conf:/opt/adguardhome/conf
+
+networks:
+  electopia:
+    external: true
+
+
+STEP5 vaultwarden and self-signed rootCA
+#create folder
+mkdir -p ~/myCA
+cd ~/myCA
+#create private key
+openssl genrsa -out myCA.key 4096
+#create root certificate
+openssl req -x509 -new -nodes -key myCA.key -sha256 -days 3650 -out myCA.pem \
+  -subj "/CN=Banana-Root-CA"
+#this creates myCA.key and myCA.pem
+#create vaultwarden certificate
+#create the private key
+openssl genrsa -out vaultwarden.lan.key 4096
+#create the csr
+openssl req -new -key vaultwarden.lan.key -out vaultwarden.lan.csr \
+  -subj "/CN=vaultwarden.lan"
+#sign it with CA
+openssl x509 -req -in vaultwarden.lan.csr \
+  -CA myCA.pem -CAkey myCA.key -CAcreateserial \
+  -out vaultwarden.lan.crt -days 825 -sha256
+#place certs
+cd /srv/docker/vaultwarden
+mkdir ssl
+cp ~/myCA/vaultwarden.lan.crt ssl/
+cp ~/myCA/vaultwarden.lan.key ssl/
+cp ~/myCA/myCA.pem ssl/
+cd /srv/share/vaultwarden
+sudo vi docker-compose.yml
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    networks:
+      - electopia
+    ports:
+      - "8081:80"
+    volumes:
+      - ./data:/data
+      - ./ssl:/data/ssl
+    environment:
+      WEBSOCKET_ENABLED: "true"
+      SIGNUPS_ALLOWED: "true"
+      DOMAIN: "https://vaultwarden.lan"
+      ROCKET_TLS: '{certs="/data/ssl/vaultwarden.lan.crt",key="/data/ssl/vaultwarden.lan.key"}'
+
+networks:
+  electopia:
+    external: true
+docker compose up -d
+docker ps
+#OPTIONAL# add this to environment:
+#access at http://<ip addr>:8081/admin
+ADMIN_TOKEN: "<your-long-random-token>"
+
+NPM
+sudo mkdir -p /opt/npm/data
+sudo mkdir -p /opt/npm/letsencrypt
+sudo chown -R $USER:$USER /opt/npm
+
+sudo nano /opt/npm/docker-compose.yml
+version: '3'
+services:
+  npm:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: npm
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - electopia
+
+networks:
+  electopia:
+    external: true
+cd /opt/npm
+docker compose up -d
+++++++++++++++++++++++
+on the router in Network > LAN > under dhcp server there is ADVANCED, you can put the pi's ip address here 10.4.4.7 and this worked to give lons and izzy the correct dns server. you can also modify it under Network > DNS. Pi will handle domain and external dns. you can add DNS rewrites in adguard under filters > dns rewrites to point adguard.hub, npm.hub, vaultwarden.hub(for example) to 10.4.4.7 
+++++++++++++++++++++++
+
+NEXT STEP SSH KEYS
+#on izzy
+ssh-keygen -t ed25519 -f $env:USERPROFILE\.ssh\izzy_nasgul
+#copy key to nasgul
+scp $env:USERPROFILE\.ssh\izzy_nasgul.pub banana@nasgul:/home/banana/
+#ssh into nasgul
+cat ~/izzy_nasgul.pub >> ~/.ssh/authorized_keys
+rm ~/izzy_nasgul.pub
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+#remove ssh pw login
+sudo nano /etc/ssh/sshd_config
+#change these to
+#PasswordAuthentication yes
+#ChallengeResponseAuthentication yes
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+#make sure these are set
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+sudo systemctl reload sshd
+
+#on izzy
+# make config.txt and paste this in there
+Rename-Item C:\Users\marco\.ssh\config.txt config
+Host nasgul
+    HostName nasgul 10.4.4.7
+    User banana
+    IdentityFile C:\Users\marco\.ssh\izzy_nasgul
+    IdentitiesOnly yes
+-------------------------
+#making new cert/key signed by bananaCA
+#in /home/banana/myCA delete old vwkeys
+openssl req -new -newkey rsa:4096 -nodes \
+  -keyout vaultwarden.hub.key \
+  -out vaultwarden.hub.csr \
+  -subj "/CN=vaultwarden.hub"
+openssl x509 -req \
+  -in vaultwarden.hub.csr \
+  -CA myCA.pem -CAkey myCA.key -CAcreateserial \
+  -out vaultwarden.hub.crt \
+  -days 825 -sha256 \
+  -extfile <(printf "subjectAltName=DNS:vaultwarden.hub")
+
+DANG MAN the problem was the basic firewall rules i put in. input -j drop was blocking it the whole time.
+I lost my vaultwarden master password so had to delete and restart.
+i enabled the admin panel but got an error when trying to deletethe user
+i had to sudo chown -R 1000:1000 /srv/share/vaultwarden/data and that fixed it because it needed permissions to manage sqlite3
+
+recreating firewall rules
+-A INPUT -s 10.4.4.0/24 -j ACCEPT
+#this allows dockernetworks to be natted out to the host
+-A INPUT -s 172.16.0.0/12 -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -j DROP
+#SMB not working through the VPN tunnel add these for lons and izzy
+sudo iptables -I INPUT -s 10.9.9.2/32 -j ACCEPT
+sudo iptables -I INPUT -s 10.9.9.3/32 -j ACCEPT
+#SSH was failing from izzy while remote. because of the config file we put in C:\Users\marco\.ssh remove the hostname line from below
+Host nasgul
+>    HostName nasgul 10.4.4.7
+    User banana
+    IdentityFile C:\Users\marco\.ssh\izzy_nasgul
+    IdentitiesOnly yes
+#ssh banana@10.4.4.7 works now
+-------------------------------
+going to finish making proxy hosts on npm then add Joplin then do the monitoring stuff. i decided to keep vaultwardens cert in place and then moving forward create a wildcard *.hub cert that will let npm terminate https before the services behind it
+# go to nasgul cd ~/myCA
+#create SAN config file
+sudo vi wildcard-hub-openssl.cnf
+# put this inside it ensures wildcard works, bare domain hub works, npm can terminate https for any *.hub service
+[ req ]
+default_bits       = 2048
+prompt             = no
+default_md         = sha256
+req_extensions     = req_ext
+distinguished_name = dn
+
+[ dn ]
+CN = *.hub
+
+[ req_ext ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = *.hub
+DNS.2 = hub
+#generate private key
+openssl genrsa -out wildcard.hub.key 2048
+#generate the csr
+openssl req -new -key wildcard.hub.key \
+-out wildcard.hub.csr \
+-config wildcard-hub-openssl.cnf
+# sign it with Banana-root-CA
+openssl x509 -req \
+-in wildcard.hub.csr \
+-CA myCA.pem \
+-CAkey myCA.key \
+-CAcreateserial \
+-out wildcard.hub.crt \
+-days 825 \
+-sha256 \
+-extfile wildcard-hub-openssl.cnf \
+-extensions req_ext
+#scp the files to izzy and import cert into npm
+# go to SSL Certificates > Add SSL Certificate > custom > upload .crt .key .pem and use the created wildcard for proxy entries
+#MUST CREATE DNS REWRITE for each proxy host. go to adguard and add them
+# ON NPM add rate limiting go to proxy host advanced add 
+#limit_req zone=one burst=10 nodelay; # or burst=5 is safer
+#above line broke the tls connection, remove it
+# add security headers: EDIT A PROXY HOST > ADVANCED paste below
+add_header X-Frame-Options "SAMEORIGIN" always;
+add_header X-XSS-Protection "1; mode=block" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "no-referrer-when-downgrade" always;
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+# add audit loggig: EDIT A PROXY HOST > ADVANCED add
+access_log /data/logs/adguard_access.log;
+error_log /data/logs/adguard_error.log;
+++++++++++++++++++++++++++++
+INSTALL JOPLIN
+sudo mkdir -p /srv/share/Joplin
+cd /srv/share/Joplin
+sudo vi docker-compose.yml
+services:
+  joplin:
+    image: joplin/server:arm64-latest
+    container_name: joplin
+    restart: unless-stopped
+    ports:
+      - "22300:22300"
+    environment:
+      - APP_PORT=22300
+      - APP_BASE_URL=https://joplin.hub
+      - DB_CLIENT=pg
+      - POSTGRES_PASSWORD=joplinpass
+      - POSTGRES_DATABASE=joplin
+      - POSTGRES_USER=joplin
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=db
+    depends_on:
+      - db
+    networks:
+      - electopia
+
+  db:
+    image: postgres:15
+    container_name: joplin-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=joplinpass
+      - POSTGRES_USER=joplin
+      - POSTGRES_DB=joplin
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    networks:
+      - electopia
+
+networks:
+  electopia:
+    external: true
+docker compose up -d
+#this will take a few minutes, it will look like it's stuck
+# create NPM proxy entry for Joplin.hub and then create a DNS rewrite on adguard pointing it to nasgul also
+#then you will be able to visit the server login page at Joplin.hub password is admin@localhost admin
+# i logged in and tried to change the pw and it said it sent and email to my email but i couldn't have. i logged out and cant log back in. i saw in the instructions there might be extra steps to install the db?? idk ill try tomorrow. 
+# got the server working i think but cant connect lons ios client. will take a break from this fricking notes app that;s wasted a day. will try form izzy windows maybe in the futre but for now will try memos instead
+--------------------------
+mkdir -p /srv/share/memos
+cd /srv/share/memos
+services:
+  memos:
+    image: neosmemo/memos:latest
+    container_name: memos
+    restart: unless-stopped
+    networks:
+      - electopia
+    ports:
+      - "5230:5230"
+    volumes:
+      - ./data:/var/opt/memos
+
+networks:
+  electopia:
+    external: true
+docker compose up -d
+docker ps
+4. Add the Proxy Host in NPM
+Go to NPM → Proxy Hosts → Add Proxy Host:
+Details
+- Domain: memos.hub
+- Scheme: http
+- Forward Hostname/IP: memos
+- Forward Port: 5230
+# add to advanced
+add_header X-Frame-Options "SAMEORIGIN" always;
+add_header X-XSS-Protection "1; mode=block" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "no-referrer-when-downgrade" always;
+# made an adguard dnsrewrite
+memos.hub → 10.4.4.7
+# make app icon go to SAFARI
+https://memos.hub
+# tap share > add to home screen
+------------------
+UPTIME KUMA
+mkdir -p /srv/share/uptime-kuma
+cd /srv/share/uptime-kuma
+sudo vi docker-compose.yml
+version: "3.8"
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    restart: unless-stopped
+    networks:
+      - electopia
+    ports:
+      - "3002:3001"
+    volumes:
+      - ./data:/app/data
+
+networks:
+  electopia:
+    external: true
+docker compose up -d
+#add proxy entry in NPM
+# add DNS rewrite in AdGuard
+# test
+# add MONITORS for services
+#YOU HAVE TO CHECK IGNORE TLS ERRORS in monitor settings because i cant upload my selfsigned rootca into kuma's certificate folder
+Use this for:
+- vaultwarden.hub
+- memos.hub
+- adguard.hub
+- npm.hub
+- kuma.hub
+- homepage.hub (later)
+- grafana.hub (later)
+Settings:
+- Monitor Type: HTTP(s)
+- URL: https://service.hub
+- Method: GET
+- Timeout: 15 seconds
+- Retries: 3
+- Accepted Status Codes: 200–399
+
+\ 2. TCP Port
+Use this for direct LAN checks that bypass NPM.
+Examples:
+- AdGuard direct: 10.4.4.7:3001
+- Vaultwarden direct: 10.4.4.7:8081
+- NPM direct: 10.4.4.7:81
+- Samba: 10.4.4.7:445
+- SSH: 10.4.4.7:22
+Settings:
+- Monitor Type: TCP Port
+- Hostname: 10.4.4.7
+- Port: 3001 (or whatever service)
+- Timeout: 10 seconds
+
+\ 3. Ping
+Use this for devices, not services.
+Examples:
+- Router: 10.4.4.1
+- IZZY laptop: 10.4.4.x
+- LONS: 10.4.4.x
+- Any VM later
+Settings:
+- Monitor Type: Ping
+- Hostname: 10.4.4.1
+- Interval: 60 seconds
+----------------------------
+monitoring level 2
+#below lines created a problem making Prometheus restart because permission was denied when it tried to access /Prometheus. must manually create container folders without sudo mkdir -p /srv/share/monitoring and then the other folders.
+mkdir /srv/share/monitoring
+mkdir -p /srv/share/monitoring/node-exporter
+mkdir -p /srv/share/monitoring/prometheus
+mkdir -p /srv/share/monitoring/Grafana
+#node exporter runs on host because it needs to expose real network+disk
+sudo vi /srv/share/monitoring/node-exporter/docker-compose.yml
+version: "3.8"
+
+services:
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    pid: host
+    network_mode: host
+    command:
+      - '--path.rootfs=/host'
+    volumes:
+      - '/:/host:ro,rslave'
+
+sudo vi /srv/share/monitoring/prometheus/prometheus.yml
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'node'
+    static_configs:
+      - targets: ['10.4.4.7:9100']
+
+sudo vi /srv/share/monitoring/prometheus/docker-compose.yml
+version: "3.8"
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    networks:
+      - electopia
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./data:/prometheus
+
+networks:
+  electopia:
+    external: true
+Prometheus was restarting, logs showed permission denied. tried this
+sudo chown -R 1000:1000 /srv/share/monitoring/Prometheus
+#then this
+sudo rm -rf /srv/share/monitoring/prometheus/data
+sudo mkdir /srv/share/monitoring/prometheus/data
+sudo chown -R 1000:1000 /srv/share/monitoring/prometheus
+#still didn't work
+#the problem was /srv/share/monitoring was owned by root and it's children folders couldn't be written to by Prometheus.
+sudo chown -R 1000:1000 /srv/share/monitoring
+or
+sudo chmod 775 /srv/share/monitoring
+or
+sudo chmod -R 775 /srv/share/monitoring
+# this didn't work. i tried prom/Prometheus:v2.52.10 and that didn't work either. apparently it was because of the mount settings i put in fstab for my ssd automount on bootup. i didn't enable acl which was preventing Prometheus to write to the disk. stupid.
+ADDING acl,user_xattr TO /etc/fstab still didn't work, suspecting that systemd is mounting the ssd before fstab and ignoring the acl
+mask systemd so it forces fstab to be the only source of truth
+systemctl status dev-disk-by\x2duuid-dcb5f2e6\x2d5530\x2d4f35\x2da118\x2dca8af424231b.device
+# geez apparently the os mounts the filesystem at 2 points with uuid and partuuid so we have to get the partuuid of /dev/sdb1 and mask that also
+sudo systemctl mask dev-disk-by\x2dpartuuid-eb9bb435\x2de22f\x2d4105\x2dbb27\x2dc7fe9262f489.device
+# this didn't work try this
+sudo systemctl mask srv-share.mount
+sudo systemctl daemon-reload
+sudo reboot
+# then check
+mount | grep sdb1
+sudo systemctl unmask srv-share.mount
+sudo systemctl unmask dev-disk-byx2dpartuuid-eb9bb435x2de22fx2d4105x2dbb27x2dc7fe9262f489.device
+sudo systemctl unmask dev-disk-byx2duuid-dcb5f2e6x2d5530x2d4f35x2da118x2dca8af424231b.device
+#abandonded will move data to host instead of ssh
+docker compose down
+sudo mkdir -p /var/lib/prometheus
+sudo chown -R 1000:1000 /var/lib/prometheus
+# in Prometheus's docker-compose.yml change - ./data:/Prometheus to
+- /var/lib/prometheus:/prometheus
+# this didn't work either, just gonna try and move the whole folder to the host
+#that didn't work either
+#pivoting to Victoria since Prometheus is being stubborn
+# will do immich and draw.io first
+
+-------------
+DRAWIO + IMMICH
+sudo mkdir -p /srv/share/drawio
+cd /srv/share/drawio
+sudo vi docker-compose.yml
+services:
+  drawio:
+    image: jgraph/drawio
+    container_name: drawio
+    restart: unless-stopped
+    networks:
+      - electopia
+    ports:
+      - "8085:8080"
+    environment:
+      - DRAWIO_BASE_URL=https://drawio.hub
+
+networks:
+  electopia:
+    external: true
+----------
+Immich has four components:
+- immich-server (the API)
+- immich-web (the UI)
+- PostgreSQL (database)
+- Redis (job queue)
+sudo mkdir -p /srv/share/immich
+sudo mkdir -p /srv/share/photos
+sudo chown -R banana:banana /srv/share/Photos
+sudo chown -R banana:banana /srv/share/immich
+cd /srv/share/immich
+sudo vi docker-compose.yml
+
+networks:
+  electopia:
+    external: true
+
+docker compose up -d
+
+#have to revisit immich there were errors bringing the container up
+
+#CREATE NPM proxy entries and DNS rewrites on AdGuard
+#drawio.hub and immich.hub
+-----------
+VICTORIA + GRAFANA
+sudo mkdir -p /srv/share/monitoring/victoriametrics
+sudo chown -R banana:banana /srv/share/monitoring/victoriametrics
+sudo vi /srv/share/monitoring/victoriametrics/prometheus.yml
+cd /srv/share/monitoring/victoriametrics/
+sudo vi prometheus.yml
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'node'
+    static_configs:
+      - targets: ['10.4.4.7:9100']
+
+sudo vi docker-compose.yml
+
+services:
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:latest
+    container_name: victoriametrics
+    restart: unless-stopped
+    networks:
+      - electopia
+    ports:
+      - "8428:8428"
+    volumes:
+      - ./data:/victoria-metrics-data
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--promscrape.config=/etc/prometheus/prometheus.yml"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    networks:
+      - electopia
+    ports:
+      - "3003:3000"
+    volumes:
+      - ./grafana:/var/lib/grafana
+
+networks:
+  electopia:
+    external: true
+sudo chown -R 472:472 /srv/share/monitoring/victoriametrics/grafana
+docker compose up -d
+#create NPM proxy entries AND AdGuard DNS rewrites for
+Grafana.hub VictoriaMetrics.hub
+
+#grafana login admin/admin 
+#data source > Prometheus
+#URL: http://10.4.4.7:8428
+#create dashboard input id and select import
+#import dashboards
+- Node Exporter Full (ID: 1860)
+- Node Exporter for Prometheus Dashboard (ID: 11074)
+- Node Exporter Quickstart (ID: 13978)
+-------------------
+# add cAdvisor
+sudo mkdir -p /srv/share/monitoring/cadvisor
+sudo chown -R banana:banana /srv/share/monitoring/cadvisor
+cd /srv/share/monitoring/cadvisor
+sudo vi docker-compose.yml
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    restart: unless-stopped
+    networks:
+      - electopia
+    ports:
+      - "8086:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
+networks:
+  electopia:
+    external: true
+docker compose up -d
+#check it at :8086
+#add cadvisor to Victoria metrics
+sudo vi /srv/share/monitoring/victoriametrics/prometheus.yml
+#add
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['10.4.4.7:8086']
+#restart
+cd /srv/share/monitoring/victoriametrics
+docker compose restart victoriametrics
+#add to Grafana dashboards UID 193 or 14282
+# DOCKER dashboard is blank need to fix
+# the fix was to find the Prometheus datasource UID dfhe55ufs9se8a which was found in the url of https://grafana.hub/connections/datasources/edit/dfhe55ufs9se8a
+# then had to go into the dashboard's JSON and replace everything that said ${DS_PROMETHEUS} with the UID. this fixed it
+# going to make dns entries for node exporter cadvisor and victoriametrics, also uptime kuma DIRECT entries
+-----
+added OpenSpeedTest
+cd /srv/share/apps
+sudo mkdir -p openspeedtest
+cd openspeedtest
+sudo vi docker-compose.yml
+services:
+  openspeedtest:
+    image: openspeedtest/latest
+    container_name: openspeedtest
+    restart: unless-stopped
+    ports:
+      - "3004:3000"  # HTTP
+      - "3005:3001"  # HTTPS
+docker compose up -d
+#make NPM and DNS entries
+
+===================
+when moving the os to a new hdd
+Grafana was restarting, logs showed permission denied to the DB
+cd /srv/share/monitoring/victoriametrics
+sudo chown -R 472:472 grafana
+bring the container back up
+
+SSH drop in keys from dead hdd
+mkdir -p /home/banana/.ssh
+cp ~/authorized_keys /home/banana/.ssh/authorized_keys
+sudo chown -R banana:banana /home/banana/.ssh
+sudo chmod 700 /home/banana/.ssh
+sudo chmod 600 /home/banana/.ssh/authorized_keys
+sudo systemctl restart sshd
+
+CHANGED flintnet size from /28 to /29 since i only have 3 devices. nasgul went from 10.4.4.7 to 10.4.4.4 and i adjusted the router dns, adguard rewrites, npm proxy entries, and uptimekuma pointers.
+blackholed the remaining ports on my switch/router and will disable wifi before vacation so that the only way in is through wireguard, with nasgul linked to the only port bridged to flintnet.
+
+UPTIMEKUMA's monitor for samba went down. it was pointed at nasgul:445
+i changed it to 10.4.4.4:445 and that worked, but ssh pointed at nasgul:22 was working?? i guess the reason is that ssh uses dns and samba relies on the NetBIOS or /etc/hosts entry so i added the new ip/hostname to nasgul's /etc/hosts
+hmm that messed all the proxy monitors. i just rebooted the UK container and that fixed it lol duhye.
+
+GRAFANA stopped showing statistings in the dashboards. CHANGE the DATA SOURCE pointing to 10.4.4.7 to 10.4.4.4 and in /srv/share/monitoring/victoriametrics/prometheus.yml change the ip also
+
+NPM i added an access list to all the proxy hosts allowing flintnet ip's and lons wg ip address. this broke uptimekuma's proxy pointers so i had to add the docker's network 172.x.x.x to the access list on npm
+this worked woooot.
+
+===================
+ADGUARD EXPORTER
+#add this to Prometheus.yml inside victoriametrics folder
+- job_name: 'adguard'
+  static_configs:
+    - targets: ['10.4.4.4:9617']
+#import adguard dashboard 17464
+#no go on this one
++++++++++++++++++++
+CLAMAV
+cd /srv/share/apps
+sudo mkdir -p clamav
+cd clamav
+sudo vi docker-compose.yml
+services:
+  clamav:
+    image: clamav/clamav:latest
+    container_name: clamav
+    restart: unless-stopped
+    volumes:
+      - /srv/share:/scan:ro
+      - ./data:/var/lib/clamav
+    command: ["tail", "-f", "/dev/null"]
+- /srv/share:/scan:ro
+→ ClamAV can read your SSD but cannot modify or delete anything.
+- ./data:/var/lib/clamav
+→ Stores virus definitions persistently so updates are fast.
+- tail -f /dev/null
+→ Keeps the container running so you can exec into it anytime.
+docker compose up -d
+# run a manual scan
+docker exec -it clamav bash
+clamscan -r /scan
+clamscan -r /scan --bell -i
+#make a cron job
+sudo crontab -e
+0 3 * * 0 docker exec clamav clamscan -r /scan --bell -i
+#runs every sunday at 3am
+#add logs
+    volumes:
+      - /srv/share:/scan:ro
+      - ./data:/var/lib/clamav
+      - ./logs:/var/log/clamav
+clamscan -r /scan -i --log=/var/log/clamav/scan.log
++++++++++++++++++++++++++
+trying loki and Grafana alloy
+cd /srv/share/monitoring
+cd loki
+sudo mkdir -p loki
+sudo mkdir -p alloy
+sudo vi docker-compose.yml
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: loki
+    restart: unless-stopped
+    networks:
+      - electopia
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki:/etc/loki
+
+networks:
+  electopia:
+    external: true
+#create the config
+sudo vi loki.yml
+auth_enabled: false
+
+server:
+  http_listen_port: 3100
+
+ingester:
+  lifecycler:
+    ring:
+      kvstore:
+        store: inmemory
+  chunk_idle_period: 5m
+  max_chunk_age: 1h
+
+schema_config:
+  configs:
+    - from: 2024-01-01
+      store: boltdb-shipper
+      object_store: filesystem
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
+
+storage_config:
+  filesystem:
+    directory: /loki/chunks
+
+limits_config:
+  ingestion_rate_mb: 8
+  ingestion_burst_size_mb: 16
+
+chunk_store_config:
+  max_look_back_period: 168h
+
+table_manager:
+  retention_deletes_enabled: true
+  retention_period: 168h
+
+cd /srv/share/monitoring/alloy
+sudo vi docker-compose.yml
+
+  alloy:
+    image: grafana/alloy:latest
+    container_name: alloy
+    restart: unless-stopped
+    networks:
+      - electopia
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./alloy:/etc/alloy
+    command: ["run", "/etc/alloy/config.alloy"]
+networks:
+  electopia:
+    external: true
+
+sudo vi config.alloy
+// Discover Docker containers
+discovery.docker "containers" {
+  host = "unix:///var/run/docker.sock"
+}
+
+// Read Docker logs
+loki.source.docker "docker_logs" {
+  targets = discovery.docker.containers.targets
+  forward_to = [loki.write.loki_push.receiver]
+}
+
+// Push logs to Loki
+loki.write "loki_push" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}
+# IN GRAFANA add Data Sources Loki http://loki:3100
+---------------------------------
+LATER
+- Blackbox Exporter (HTTP/TCP/ICMP probes)
+- WireGuard Exporter
+- Alerts (email, Discord, Telegram)
+
++++++++++++++++++++++++++++
+
+homer dashboard later

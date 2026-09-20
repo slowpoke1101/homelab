@@ -1,0 +1,60 @@
+How to do it (step‑by‑step)
+
+You can do this on Izzy (your Lenovo laptop) or TK (your Pi backup node). Since you’re using Izzy right now, I’ll tailor it to that.
+1. Plug in the HDD
+
+Make sure you know which device it is:
+bash
+
+lsblk
+
+You’ll see something like:
+Code
+
+sdb      931.5G   disk
+└─sdb1   931.5G   part
+
+2. Wipe the partition table (optional but recommended)
+
+This ensures no old Windows partitions remain.
+bash
+
+sudo wipefs -a /dev/sdb
+
+3. Create a LUKS encrypted volume
+bash
+
+sudo cryptsetup luksFormat /dev/sdb
+
+You’ll be asked to type YES and then enter a strong passphrase.
+4. Open (unlock) the encrypted disk
+bash
+
+sudo cryptsetup open /dev/sdb backupdrive
+
+This creates a mapped device at:
+Code
+
+/dev/mapper/backupdrive
+
+5. Format it with ext4
+bash
+
+sudo mkfs.ext4 /dev/mapper/backupdrive
+
+6. Mount it and copy your backup
+bash
+
+sudo mkdir /mnt/backup
+sudo mount /dev/mapper/backupdrive /mnt/backup
+
+Copy your files normally.
+7. When done, unmount and close
+bash
+
+sudo umount /mnt/backup
+sudo cryptsetup close backupdrive
+
+Now the HDD is fully encrypted.
+If someone steals it, all they see is random noise.
+
