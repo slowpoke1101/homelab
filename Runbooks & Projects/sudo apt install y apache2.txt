@@ -1,0 +1,33 @@
+sudo apt install -y apache2 mariadb-server php php-mysqli php-gd php-curl php-mbstring php-zip php-xml
+sudo systemctl enable apache2 --now
+cd /var/www
+sudo git clone https://github.com/digininja/DVWA.git dvwa
+sudo MySQL
+CREATE DATABASE dvwa;
+CREATE USER 'dvwauser'@'localhost' IDENTIFIED BY 'StrongPasswordHere';
+GRANT ALL PRIVILEGES ON dvwa.* TO 'dvwauser'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+cd /var/www/dvwa/config
+sudo cp config.inc.php.dist config.inc.php
+sudo nano config.inc.php
+Inside the file, set:
+- database name → dvwa
+- user → dvwauser
+- password → StrongPasswordHere
+- host → localhost
+sudo chown -R www-data:www-data /var/www/dvwa
+sudo find /var/www/dvwa -type d -exec chmod 755 {} \;
+sudo find /var/www/dvwa -type f -exec chmod 644 {} \;
+sudo nano /etc/apache2/sites-available/dvwa.conf
+<VirtualHost *:80>
+    DocumentRoot /var/www/dvwa
+    <Directory /var/www/dvwa>
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+sudo a2dissite 000-default.conf
+sudo a2ensite dvwa.conf
+sudo a2enmod rewrite
+sudo systemctl reload apache2
