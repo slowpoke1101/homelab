@@ -1,6 +1,6 @@
 # Homelab Architecture
 
-This folder documents the current architecture of Marco's homelab. It describes the
+This folder documents the current architecture of my homelab. It describes the
 network boundaries, physical topology, security controls, and service placement that
 are intended to be true of the running environment.
 
