@@ -43,4 +43,4 @@ This node exists because early on I found an affinity for virtualization but was
 
 ---
 
-![Sora VM Console](images/sora_console.png)
+![Sora VM Console](images/proxmox_console.png)

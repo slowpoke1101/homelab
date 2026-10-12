@@ -7,5 +7,4 @@
 - selfsigned wildcard cert for self-hosted apps
 - access list restricted to phone, workstation and management hosts
 ![webapp route](images/webapp-route.png)
-![npm1 dashboard](images/npm1.png)
 ![npm2 dashboard](images/npm2.png)
