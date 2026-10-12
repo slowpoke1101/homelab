@@ -1,3 +1,6 @@
+Archive: old raw notes from first time deployment on new nodes
+used for runbooks. All sensitive data is no longer in production
+
 #wipe ssd
 #create filesystem table
 sudo parted /dev/sda mklabel gpt
