@@ -1,3 +1,6 @@
+Archive: old raw notes from first time deployment on raspi4
+used for runbooks. All sensitive data is no longer in production
+
 Step 1: install docker
 +++++++++
 #install dependencies
@@ -20,7 +23,7 @@ sudo systemctl start docker
 # add user to docker group to avoid having to type sudo
 sudo usermod -aG docker <username>
 # NEED TO LOGOUT for changes to take effect lol this tripped me up
-docker network create electopia
+docker network create xxxxx
 +++++++++++
 
 
@@ -70,8 +73,8 @@ UUID="--------"  /srv/share  ext4  defaults,noatime  0  2
 #save exit and test, the next command should return nothing
 sudo mount -a
 sudo systemctl restart smbd
-#lons and izzy now see the data drive success
-# create minimal firewall rules allowing lons izzy and router only
+#phone and laptop now see the data drive success
+# create minimal firewall rules allowing phone and laptop and router only
 sudo iptables -I INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 sudo iptables -I INPUT -s 10.4.4.1 -j ACCEPT
 sudo iptables -I INPUT -s 10.4.4.11 -j ACCEPT
