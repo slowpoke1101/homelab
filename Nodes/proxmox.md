@@ -1,4 +1,4 @@
-# Node Profile — Sora
+# Node Profile — Proxmox production
 
 **Hardware:** Lenovo ThinkCentre M75q Gen2  
 **Upgrades:** 500 GB NVMe, 48 GB 3200 MHz RAM  
