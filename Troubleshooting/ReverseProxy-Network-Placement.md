@@ -2,7 +2,7 @@
 
 ## Background
 
-As I expanded my homelab, I deployed several services behind Nginx Proxy Manager (NPM) including Grafana, Stirling PDF, Homepage, Gitea, and various monitoring tools.
+As I expanded my homelab, I deployed several services behind Nginx Proxy Manager (NPM) including Grafana, Stirling PDF, Vaultwarden, Gitea, and various monitoring tools.
 
 Although I had NPM working, I eventually realized that my understanding of where a reverse proxy sits in the traffic flow was incomplete. The result was that some services were technically "behind" NPM while still being directly reachable via their host IP and exposed ports.
 
@@ -137,7 +137,7 @@ Examples:
 ```text
 stirling-pdf:8080
 grafana:3000
-homepage:3000
+vaultwarden:3000
 ```
 
 Traffic now flows:
@@ -239,7 +239,7 @@ Client
 NPM (80/443)
   |
   +--> Grafana
-  +--> Homepage
+  +--> Vaultwarden
   +--> Stirling PDF
   +--> Gitea
   +--> Other Web Applications
