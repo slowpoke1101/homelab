@@ -1,4 +1,4 @@
-# Node Profile — Mimi
+# Node Profile — OPNsense
 
 **Hardware:** Intel NUC7i5BNK  
 **Upgrades:** 16 GB RAM, 256 GB NVMe, Realtek Ugreen 2.5GbE USB NIC for WAN  
