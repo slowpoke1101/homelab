@@ -1,4 +1,4 @@
-# Node Profile — Joe
+# Node Profile — TrueNAS
 
 **Hardware:** Lenovo ThinkCentre M715q Gen2  
 **Upgrades:** 1TB SATA SSD, 256 GB NVMe, 16 GB RAM  

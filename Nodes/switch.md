@@ -1,4 +1,4 @@
-# Node Profile — Tai
+# Node Profile — SWITCH
 
 **Hardware:** NETGEAR GS308EP managed switch with PoE+  
 **Role:** Network switch  

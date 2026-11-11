@@ -18,6 +18,7 @@ The Flint2 access point and other network details are documented in the [network
 ## Physical Layout
 
 The core systems are mounted in a small 10-inch rack. The switch provides PoE+ to the Raspberry Pi nodes, keeping the setup a little tidier and giving the monitoring and backup roles their own hardware.
+(Images from an earlier state of the homelab, will update soon)
 
 ![Homelab rack, front view](images/rack1.JPG)
 
