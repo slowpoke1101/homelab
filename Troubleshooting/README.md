@@ -1,7 +1,7 @@
 # Troubleshooting
 
 This folder contains incident notes for problems that affected the homelab and were
-investigated or resolved. Each document describes one specific symptom or failure.
+investigated or resolved.
 
 ## Recommended Format
 
