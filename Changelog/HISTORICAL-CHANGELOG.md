@@ -2,6 +2,8 @@
 
 ## Historical Milestones  
 
+---
+
 ## Initial Environment - Raspberry Pi 4 and Laptop
 
 ### Added
@@ -19,6 +21,8 @@
 
 - Introduced change management practices through staging and testing.
 - First separation between development and production environments.  
+
+---
 
 ## Enterprise Simulation Lab Expansion
 
@@ -39,6 +43,8 @@
 
 - First exposure to identity management, DNS administration, web hosting, and network segmentation.  
 
+---
+
 ## VLAN Introduction and Dedicated Router
 
 ### Added
@@ -54,6 +60,8 @@
 ### Significance
 
 - First implementation of true network segmentation and router-based VPN services.  
+
+---
 
 ## Infrastructure Modernization
 
@@ -75,6 +83,8 @@
 
 - Transitioned from hobbyist self-hosting to a small enterprise-style infrastructure.
 - Established production workloads, backup services, and virtualization platform.  
+
+---
 
 ## Infrastructure Expansion and Operations Maturity
 
