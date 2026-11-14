@@ -1,6 +1,6 @@
 # Node Profile — backup-node
 
-**Hardware:** Raspberry Pi 4 4GB, USB SATA adapter, and external 1TB HDD or SSD for the OS and backup data
+**Hardware:** Raspberry Pi 4 4GB, POE+ Hat, USB SATA adapter, and external 1TB HDD or SSD for the OS and backup data
 **Role:** Backup node 
 **OS:** Raspberry Pi OS (Debian 13 Trixie)  
 **Network:** Management VLAN 11 → 10.1.11.9

@@ -1,7 +1,7 @@
 # Node Profile — Proxmox production
 
-**Hardware:** Lenovo ThinkCentre M75q Gen2  
-**Upgrades:** 500 GB NVMe, 48 GB 3200 MHz RAM  
+**Hardware:** Lenovo ThinkCentre M75q Gen2 Ryzen 4750GE
+**Upgrades:** 500 GB NVMe, 1TB SATA, 48 GB 3200 MHz RAM  
 **Role:** Proxmox virtualization host  
 **Version:** PVE v8.2.1  
 **Network:** VLAN 11 management on the switch → 10.1.11.6; VLANs 1, 4, 50, 88, and 99 are tagged through the trunk port

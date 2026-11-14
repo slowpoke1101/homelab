@@ -19,20 +19,20 @@
 
 The Docker VM currently runs:
 
-- AdGuard
-- Excalidraw
-- Gitea
-- Immich
-- LibreSpeed
-- iPerf3
-- Memos
-- Nginx Proxy Manager
-- StirlingPDF
-- Uptime Kuma
-- Vaultwarden
-- Grafana
-- cAdvisor
-- Node Exporter
+- AdGuard (Ad Blocking) <img src="Services/images/adguard-home.png" alt="png icon" width="24" height="24">
+- Excalidraw (Flowchart App) <img src="Services/images/excalidraw.png" alt="png icon" width="24" height="24">
+- Gitea (Git Server) <img src="Services/images/gitea.png" alt="png icon" width="24" height="24">
+- Immich (Photos App) <img src="Services/images/immich.png" alt="png icon" width="24" height="24">
+- LibreSpeed (Speed test) <img src="Services/images/librespeed.png" alt="png icon" width="24" height="24">
+- iPerf3 (Speed test)
+- Memos (Notes App) <img src="Services/images/memos.png" alt="png icon" width="24" height="24">
+- Nginx Proxy Manager (Reverse Proxy) <img src="Services/images/npm.png" alt="png icon" width="24" height="24">
+- StirlingPDF (PDF Editor) <img src="Services/images/stirling.png" alt="png icon" width="24" height="24">
+- Uptime Kuma (Uptime Monitor) <img src="Services/images/uptimekuma.png" alt="png icon" width="24" height="24">
+- Vaultwarden (Password Manager) <img src="Services/images/vaultwarden.png" alt="png icon" width="24" height="24">
+- Grafana (Dashboard for metris and logs) <img src="Services/images/grafana.png" alt="png icon" width="24" height="24">
+- cAdvisor (Container metrics) <img src="Services/images/cadvisor.png" alt="png icon" width="24" height="24">
+- Node Exporter (Host metrics)
 
 ## Storage Relationships
 
