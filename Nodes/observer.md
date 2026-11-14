@@ -9,7 +9,7 @@
 ## Services
 - VictoriaMetrics for time-series metrics
 - Loki for centralized logs
-- Promtail / Alloy-style log forwarding
+- Promtail/rsyslog log forwarding
 - Docker host for the observability stack
 - Host-level monitoring and log collection for the rest of the lab
 
@@ -21,6 +21,17 @@
 - Syslog is forwarded from infrastructure nodes to observer, where Loki and Promtail handle collection.
 - Grafana stays on the Docker VM, while observer provides the storage and collection backend for the graphing and logging layers.
 - The node remains on the management VLAN so it can collect telemetry without exposing the observability stack unnecessarily.
+
+---
+
+## Nodes monitored and logged
+- Proxmox-1    Node Exporter, rsyslog
+- Proxmox-2    Node Exporter, rsyslog
+- Opnsense     Node Exporter, rsyslog
+- TrueNAS      Node Exporter, rsyslog
+- Docker VM    Node Exporter, rsyslog, cAdvisor
+- Backup-Node  Node Exporter, rsyslog
+- Observer     Node Exporter, rsyslog
 
 ---
 
