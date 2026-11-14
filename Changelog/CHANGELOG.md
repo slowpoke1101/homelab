@@ -11,27 +11,6 @@ alter architecture, availability, security, recovery, or service behavior.
 
 ## Historical Changes
 
-## 2026-07-03
-
-### Added
-
-- Added a second Raspberry Pi 4 to the homelab.
-- Added PoE+ hats and a NETGEAR GS308EP PoE+ switch to power both Raspberry Pis.
-
-### Changed
-
-- Dedicated one Raspberry Pi as `backup-node` for TrueNAS backups.
-- Moved metrics and log collection from the Docker VM to `observer`.
-- Established `observer` as the host for VictoriaMetrics, Loki, and Promtail.
-
-### Documentation Impact
-
-- Architecture documentation now identifies `backup-node` as the backup system and `observer`
-  as the metrics and log collector.
-- The hardware and network topology documentation reflects the PoE+ switch and both Raspberry Pis.
-
----
-
 ## 2026-09-27 - Migrate TrueNAS to Proxmox Virtual Machine
 
 ### Changed
@@ -63,6 +42,27 @@ alter architecture, availability, security, recovery, or service behavior.
 - Updated xxx.md
 - Updated xxx.md
 - Updated xxx.md
+
+---
+
+## 2026-07-03
+
+### Added
+
+- Added a second Raspberry Pi 4 to the homelab.
+- Added PoE+ hats and a NETGEAR GS308EP PoE+ switch to power both Raspberry Pis.
+
+### Changed
+
+- Dedicated one Raspberry Pi as `backup-node` for TrueNAS backups.
+- Moved metrics and log collection from the Docker VM to `observer`.
+- Established `observer` as the host for VictoriaMetrics, Loki, and Promtail.
+
+### Documentation Impact
+
+- Architecture documentation now identifies `backup-node` as the backup system and `observer`
+  as the metrics and log collector.
+- The hardware and network topology documentation reflects the PoE+ switch and both Raspberry Pis.
 
 ---
 
