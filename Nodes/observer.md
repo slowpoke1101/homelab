@@ -1,10 +1,9 @@
 # Node Profile — observer
 
-**Hardware:** Raspberry Pi 4  
+**Hardware:** Raspberry Pi 4 8GB, USB SATA adapter, and external 1TB HDD or SSD for the OS
 **Role:** Metrics and log collector  
 **OS:** Raspberry Pi OS (GUI)  
-**Network:** Management VLAN 11 → 10.1.11.8 or current management assignment defined in the network docs
-
+**Network:** Management VLAN 11 → 10.1.11.8 
 ---
 
 ## Services

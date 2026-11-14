@@ -25,4 +25,8 @@ This is a learning environment, not an enterprise reference design. Its architec
 - [Service Architecture](Architecture%20Overview/service-architecture.md) describes application placement, storage dependencies, backups, and monitoring.
 - [Runbooks & Projects](Runbooks%20%26%20Projects/README.md) contains deployment and operating procedures, along with experiments and planned improvements.
 - [Troubleshooting](Troubleshooting/README.md) records investigations, causes, and fixes for problems encountered in the lab.
-- [Changelog](Changelog/CHANGELOG.md) tracks changes that affect the architecture, security, availability, or recovery.
+- [Changelog](Changelog/CHANGELOG.md) tracks changes that affect the architecture, security, availability, or recovery.  
+
+### Logical Network Topology  
+  
+![network map](<Architecture Overview/images/logical-topology.png>)

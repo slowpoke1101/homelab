@@ -24,7 +24,9 @@ Production and management rules include additional narrow exceptions for systems
 
 ## Administrative Access
 
-The management interfaces for OPNsense, TrueNAS, Proxmox, and the switch are restricted to the Fedora workstation on the management network. SSH is disabled on the infrastructure nodes where local console access is available. Access rules should be reviewed whenever a new administrative device or service is added.
+The management interfaces for OPNsense, TrueNAS, Proxmox, and the switch are restricted to the Fedora workstation on the management network. SSH is disabled on the infrastructure nodes where local console access is available. Access rules should be reviewed whenever a new administrative device or service is added.  
+SSH keys generated and placed on critical VMs and password authentication  
+disabled, allowing only Fedora Workstation remote access.
 
 ## Detection And DNS
 

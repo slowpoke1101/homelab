@@ -1,7 +1,7 @@
 # Node Profile — TrueNAS
 
-**Hardware:** Lenovo ThinkCentre M715q Gen2  
-**Upgrades:** 1TB SATA SSD, 256 GB NVMe, 16 GB RAM  
+**Hardware:** Virtualized  
+**Upgrades:** 1TB SATA SSD Raw mapped to VM  
 **Role:** NAS  
 **Version:** TrueNAS Scale  
 **Network:** VLAN 11 management → 10.1.11.7

@@ -20,6 +20,7 @@
 The Docker VM currently runs:
 
 - AdGuard
+- Excalidraw
 - Gitea
 - Immich
 - LibreSpeed

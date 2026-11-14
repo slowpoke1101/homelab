@@ -10,24 +10,25 @@
 
 ## Virtual Machines
 - netopia (Docker VM)
-- bot1
-- bot2
-- gui1
-- win1
+- NASgul (Truenas VM)
 
 ---
 
 ## Services on netopia
-AdGuard, Gitea, Immich, LibreSpeed, iPerf3, Memos, Nginx Proxy Manager, StirlingPDF,  
-Uptime Kuma, Vaultwarden, Grafana, cAdvisor, and Node Exporter
+AdGuard, Excalidraw, Gitea, Immich, LibreSpeed, iPerf3, Memos, Nginx Proxy Manager, StirlingPDF,  
+Uptime Kuma, Vaultwarden, Grafana, cAdvisor, and Node Exporter  
+Network Storage provided by TrueNAS SMB/NFS shares
 
 ---
 
 ## Key configurations
-- Proxmox is the main virtualization host for my self-hosted services and lab VMs.
+- Proxmox is the Production virtualization host for my self-hosted services and Network Storage.
 - The management network is on VLAN 11 while the public-facing and service networks are trunked through the switch.
 - Docker workloads are hosted on the `netopia` VM, which is where most of the application layer lives.
 - Node Exporter is enabled on the host and on the Docker VM so observer can scrape metrics.
+- TrueNAS provides general storage, and critial infrastructure nodes are  configured with cron-based rsync backup scripts pointing to another dataset  
+on the host. Observer then performs it's own cron-based rsync script on that  
+dataset.
 
 ---
 
@@ -37,7 +38,7 @@ This node exists because early on I found an affinity for virtualization but was
 ---
 
 ## Future Improvements
-- More sandbox pentesting workloads
+- Security Improvements
 - LXC containers for lightweight services
 - High availability and clustering later on if I expand the lab
 

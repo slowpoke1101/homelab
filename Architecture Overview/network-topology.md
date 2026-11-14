@@ -8,8 +8,8 @@ The building-managed WAN connection enters OPNsense. OPNsense is the default gat
 flowchart TB
     WAN[Building-managed WAN] --> FW[OPNsense]
     FW -->|802.1Q trunk| SW[NETGEAR GS308EP switch]
-    SW -->|802.1Q trunk| PVE[Proxmox]
-    SW -->|VLAN 11 access| NAS[TrueNAS]
+    SW -->|802.1Q trunk| PVE[Proxmox-1]
+    SW -->|802.1Q trunk| PVE[Proxmox-2]
     SW -->|VLAN 11 access| Backup[backup-node]
     SW -->|VLAN 11 access| Obs[observer]
     SW -->|VLAN 88 and 99 tagged| AP[Flint2 wireless AP]
@@ -34,8 +34,8 @@ The following table is the current physical layout on the switch. `PVID` is the 
 
 | Port | Connected device | PVID | Tagged VLANs |
 | --- | --- | --- | --- |
-| 1 | TrueNAS | 11 | None |
-| 2 | Proxmox | 11 | 1, 4, 50, 88, 99 |
+| 1 | Proxmox-2 | 11 | 1, 4, 50, 88, 99 |
+| 2 | Proxmox-1 | 11 | 1, 4, 50, 88, 99 |
 | 3 | backup-node | 11 | None |
 | 4 | Unused | 50 | None |
 | 5 | Unused | 50 | None |
@@ -46,8 +46,8 @@ The following table is the current physical layout on the switch. `PVID` is the 
 ## Physical Nodes
 
 - **OPNsense:** NUC7i5BNK firewall and router. The native NIC connects to the switch; the Realtek Ugreen 2.5GbE USB NIC connects to WAN.
-- **Proxmox:** ThinkCentre M75q Gen2 virtualization host.
-- **TrueNAS:** ThinkCentre M715q Gen2 network-attached storage host.
+- **Proxmox-1:** ThinkCentre M75q Gen2 Production virtualization host.
+- **Proxmox-2:** ThinkCentre M75q Gen2 Staging/Testing Virtualization host.
 - **backup-node:** Raspberry Pi 4 used for backups.
 - **observer:** Raspberry Pi 4 used for metrics and log collection.
 - **Flint2:** GL.iNet Flint MT6000 running OpenWrt in access point mode.

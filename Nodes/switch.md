@@ -8,8 +8,8 @@
 ---
 
 ## Key configurations
-- Port 1: TrueNAS on VLAN 11
-- Port 2: Proxmox on VLAN 11 with tagged VLANs 1, 4, 50, 88, and 99
+- Port 1: Proxmox-2 on VLAN 11 with tagged VLANS 1, 4, 50, 88, and 99
+- Port 2: Proxmox-1 on VLAN 11 with tagged VLANs 1, 4, 50, 88, and 99
 - Port 3: backup-node on VLAN 11
 - Port 6: observer on VLAN 11
 - Port 7: OPNsense LAN with VLAN 1 native and tagged VLANs 4, 11, 50, 88, and 99
