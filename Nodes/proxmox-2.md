@@ -59,6 +59,19 @@ The full replica is a future goal; current work consists of smaller staged syste
 and targeted tests. Keep these workloads in the sandbox VLAN unless a test explicitly
 requires another placement.
 
+### Local AI and documentation workstation
+
+The Environment includes two Ubuntu VMs:
+
+- An Ubuntu Server VM running Ollama and Open WebUI in Docker containers. Open WebUI
+  connects to the Ollama instance on this VM, and is available from to my iPhone through
+  the reverse proxy.
+- An Ubuntu Desktop VM used as the current primary documentation workstation.
+
+These are lab workloads on Proxmox-2; keep their network placement and any access
+between the reverse proxy and the sandbox in line with the lab's VLAN and firewall
+boundaries.
+
 ### Vulnerable web application practice
 
 The security-learning environment is being rebuilt with a Kali Linux attacker VM and
