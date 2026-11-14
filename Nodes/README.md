@@ -24,4 +24,4 @@ The core systems are mounted in a small 10-inch rack. The switch provides PoE+ t
 ---
 
 Raspberry Pi 4's mounted in the back  
-![Homelab rack, front view](images/rack1.JPG)
+<img src="images/rack1.JPG" alt="Homelab rack, front view" width="300">
