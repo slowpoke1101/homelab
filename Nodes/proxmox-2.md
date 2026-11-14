@@ -89,6 +89,22 @@ take a snapshot or make a backup when it will help recovery. Validate backup res
 on the lab host before relying on them elsewhere. Do not assume that being a VM on
 the staging host by itself isolates a workload from other networks.
 
+## Virtual Machines
+- DC01 (windows server)
+- Workstation01 (windows 10 client)
+- Workstation02 (windows 11 client)
+- ollama (ollama and openwebui host)
+- kali (kali linux host)
+- dvwa (damn vulnerable web application host)  
+Staging Hosts:
+- lab-opnsense
+- lab-observer
+- lab-proxmox
+- lab-backup
+- lab-truenas
+- lab-netopia
+- lab-multipurpose
+
 ## Related documentation
 
 - [Node inventory](README.md)
