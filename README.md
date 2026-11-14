@@ -2,7 +2,8 @@
 
 All IP addresses, VLAN IDs, hostnames, network ranges, and device names in this repository are fictional placeholders.
 They do not represent my real home network.
-The architecture and documentation are real, but sensitive values have been intentionally altered.
+The architecture and documentation are real, but sensitive values have been intentionally altered.  
+True and specific documentation is mantained on self-hosted gitea server.
 
 ## Homelab Overview
 
