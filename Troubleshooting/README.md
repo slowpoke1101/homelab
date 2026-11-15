@@ -24,3 +24,6 @@ system.
 
 - [Sandbox VMs Received APIPA Addresses](sandbox-apipa.md)
 - [Proxmox Failed After SSD Removal](proxmox-ssd-removal.md)
+- [TrueNAS VM hang during shutdown](TruenasVM-shutdown-hang.md)
+- [Reverse Proxy Network placement](ReverseProxy-Network-Placement.md)
+- [Docker Host DNS failure](DNSfailure-DockerHost.md)
