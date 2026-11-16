@@ -8,7 +8,7 @@ OPNsense is the enforcement point between the homelab VLANs. The baseline policy
 | --- | --- | --- |
 | WAN to homelab | OPNsense WAN policy, private-network and bogon blocking | No unsolicited inbound access from the building WAN |
 | VLAN to VLAN | Default-deny firewall rules | Segmented networks cannot communicate by default |
-| IoT to trusted networks | IoT VLAN 99 isolation | Smart-home and guest devices cannot reach internal services |
+| IoT, Guest, Sandbox to trusted networks | IoT, Guest, Sandbox VLAN isolation | Smart-home, guest devices, and sandbox network cannot reach internal services |
 | Administration to infrastructure | Management VLAN 11 and restricted firewall rules | Management interfaces are available only to authorized administration |
 | Remote user to homelab | Tailscale and restricted routes | Remote access does not require a public IP or port forwarding |
 
@@ -35,6 +35,10 @@ disabled, allowing only Fedora Workstation remote access.
 - OPNsense provides DHCP through dnsmasq.
 - Nginx Proxy Manager provides TLS termination and internal routing for web services using the `*.hub` wildcard certificate.
 - Loki and Promtail provide centralized log collection on observer.
+
+## Reverse Proxy And Container Exposure
+
+Most web applications and services are accessed through Nginx Proxy Manager (NPM), which publishes the host ports for web access, terminates TLS/HTTPS, and routes requests to services over internal Docker networking. Other than NPM, application containers do not publish host ports. Monitoring containers such as cAdvisor and Node Exporter are exceptions: they expose host ports so the observer node can scrape their metrics.
 
 ## Remote Access
 
