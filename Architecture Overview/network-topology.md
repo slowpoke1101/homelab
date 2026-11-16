@@ -2,7 +2,7 @@
 
 ## Traffic Flow
 
-The building-managed WAN connection terminates on OPNsense's 2.5GbE Realtek RTL8156 USB Ethernet adapter. OPNsense is the default gateway for the homelab; its LAN connection uses the NUC7's native NIC as the parent interface for the VLAN subinterfaces and uplinks to the NETGEAR GS308EP switch. The switch distributes access and tagged VLAN connectivity to the physical nodes and Flint2 wireless access point.
+The building-managed WAN connection terminates on OPNsense. OPNsense is the default gateway for the homelab; its LAN connection uses the NUC7's native NIC as the parent interface for the VLAN subinterfaces and uplinks to the NETGEAR GS308EP switch. The switch distributes access and tagged VLAN connectivity to the physical nodes and Flint2 wireless access point.
 
 ```mermaid
 flowchart TB
