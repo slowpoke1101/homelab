@@ -26,7 +26,11 @@ flowchart TB
 
 The switch port 7 trunk carries VLAN 1 untagged and VLANs 4, 11, 50, 88, and 99 tagged to the OPNsense LAN parent interface.
 
-## VLANs And Addressing
+## VLANs, Addressing, and DNS overview
+
+The gateway address for each VLAN is the first usable address in its subnet (`.1`). All physical and virtual infrastructure nodes use DHCP reservations.
+
+In the sandbox VLAN (50), DC01 provides authoritative DNS for Windows domain-joined VM clients and forwards internet DNS queries to the network gateway.  
 
 | VLAN | Name | Network | Gateway | Primary purpose |
 | --- | --- | --- | --- | --- |
@@ -36,12 +40,6 @@ The switch port 7 trunk carries VLAN 1 untagged and VLANs 4, 11, 50, 88, and 99 
 | 50 | Sandbox | `10.1.50.0/25` | `10.1.50.1` | Isolated testing and sandbox VMs; DHCP assigned |
 | 88 | Roommate's LAN | `10.1.88.0/25` | `10.1.88.1` | Roommate's devices and latency-sensitive devices |
 | 99 | IoT | `10.1.99.0/25` | `10.1.99.1` | Smart-home and guest devices |
-
-## Addressing And DNS Overview
-
-The gateway address for each VLAN is the first usable address in its subnet (`.1`). All physical and virtual infrastructure nodes use DHCP reservations.
-
-In the sandbox VLAN (50), DC01 provides authoritative DNS for Windows domain-joined VM clients and forwards internet DNS queries to the network gateway.
 
 ## Switch Port Layout
 
@@ -58,16 +56,6 @@ The following table is the current physical layout on the switch. `PVID` is the 
 | 7 | OPNsense LAN | 1 | 4, 11, 50, 88, 99 |
 | 8 | Flint2 | 1 | 88, 99 |
 
-## Physical Nodes
-
-- **OPNsense:** NUC7i5BNK firewall and router. The native NIC is the LAN parent interface and connects to the switch; the Realtek RTL8156-based Ugreen 2.5GbE USB Ethernet adapter connects to WAN.
-- **Proxmox-1:** ThinkCentre M75q Gen2 Production virtualization host.
-- **Proxmox-2:** ThinkCentre M75q Gen2 Staging/Testing Virtualization host.
-- **backup-node:** Raspberry Pi 4 used for backups.
-- **observer:** Raspberry Pi 4 used for metrics and log collection.
-- **Flint2:** GL.iNet Flint MT6000 running OpenWrt in access point mode.
-- **switch:** NETGEAR GS308EP managed switch with PoE+.
-
 ## Flint2 Wireless Access Point
 
 The Flint2 has six physical Ethernet ports: the first two are 2.5GbE and the other four are 1GbE. The switch's port 8 trunk connects to the Flint2's second physical port (2.5GbE). On the Flint2, that uplink carries VLAN 1 untagged and VLANs 88 and 99 tagged.
@@ -79,3 +67,14 @@ The Flint2 runs in wireless access point mode, with LuCI still available to conf
 | Trusted / LAN | 1 (untagged on uplink) | Trusted / LAN |
 | Roommate / guest | 88 (tagged on uplink) | Roommate / guest |
 | IoT | 99 (tagged on uplink) | IoT |
+
+## Physical Nodes
+
+- **OPNsense:** NUC7i5BNK firewall and router. The native NIC is the LAN parent interface and connects to the switch; the Realtek RTL8156-based Ugreen 2.5GbE USB Ethernet adapter connects to WAN.
+- **Proxmox-1:** ThinkCentre M75q Gen2 Production virtualization host.
+- **Proxmox-2:** ThinkCentre M75q Gen2 Staging/Testing Virtualization host.
+- **backup-node:** Raspberry Pi 4 used for backups.
+- **observer:** Raspberry Pi 4 used for metrics and log collection.
+- **Flint2:** GL.iNet Flint MT6000 running OpenWrt in access point mode.
+- **switch:** NETGEAR GS308EP managed switch with PoE+.
+
