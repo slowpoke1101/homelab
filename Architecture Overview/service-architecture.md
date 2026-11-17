@@ -1,20 +1,5 @@
 # Service Architecture
 
-## Service Placement
-
-| Component | Host | Network or location | Role |
-| --- | --- | --- | --- |
-| OPNsense services | OPNsense | VLANs 1, 4, 11, 50, 88, 99 | Routing, DHCP, DNS, firewalling, and IDS |
-| Docker workloads | Docker VM | Production VLAN 4 | Self-hosted applications and web services |
-| Grafana | Docker VM | Production VLAN 4 | Dashboards and visualization |
-| cAdvisor | Docker VM | Docker VM | Container metrics |
-| Node Exporter | OPNsense, TrueNAS, Proxmox, Docker VM | Respective node networks | Host metrics |
-| VictoriaMetrics | observer | Management VLAN 11 | Metrics storage and scraping |
-| Loki and Promtail | observer | Management VLAN 11 | Log storage and collection |
-| Nginx Proxy Manager | Docker VM | Production VLAN 4 | TLS termination and reverse proxy |
-| Uptime Kuma | Docker VM | Production VLAN 4 | Availability monitoring and Discord alerts |
-| TrueNAS SMB and NFS | TrueNAS | Management VLAN 11 | Network storage |
-
 ## Application Services
 
 The Docker VM currently runs:
@@ -33,6 +18,21 @@ The Docker VM currently runs:
 - [Grafana](Services/grafana.md) (Dashboard for metris and logs) <img src="Services/images/grafana.png" alt="png icon" width="24" height="24">
 - cAdvisor (Container metrics) <img src="Services/images/cadvisor.png" alt="png icon" width="24" height="24">
 - Node Exporter (Host metrics)
+
+## Service Placement
+
+| Component | Host | Network or location | Role |
+| --- | --- | --- | --- |
+| OPNsense services | OPNsense | VLANs 1, 4, 11, 50, 88, 99 | Routing, DHCP, DNS, firewalling, and IDS |
+| Docker workloads | Docker VM | Production VLAN 4 | Self-hosted applications and web services |
+| Grafana | Docker VM | Production VLAN 4 | Dashboards and visualization |
+| cAdvisor | Docker VM | Docker VM | Container metrics |
+| Node Exporter | OPNsense, TrueNAS, Proxmox, Docker VM | Respective node networks | Host metrics |
+| VictoriaMetrics | observer | Management VLAN 11 | Metrics storage and scraping |
+| Loki and Promtail | observer | Management VLAN 11 | Log storage and collection |
+| Nginx Proxy Manager | Docker VM | Production VLAN 4 | TLS termination and reverse proxy |
+| Uptime Kuma | Docker VM | Production VLAN 4 | Availability monitoring and Discord alerts |
+| TrueNAS SMB and NFS | TrueNAS | Management VLAN 11 | Network storage |
 
 ## Storage Relationships
 
