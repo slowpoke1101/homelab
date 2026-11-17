@@ -54,7 +54,8 @@ The following table is the current physical layout on the switch. `PVID` is the 
 | 5 | Unused | 50 | None |
 | 6 | observer | 11 | None |
 | 7 | OPNsense LAN | 1 | 4, 11, 50, 88, 99 |
-| 8 | Flint2 | 1 | 88, 99 |
+| 8 | Flint2 | 1 | 88, 99 |  
+## ![switch ports](images/switchports.png)  
 
 ## Flint2 Wireless Access Point
 
