@@ -1,6 +1,6 @@
 ## trueNAS <img src="images/truenas.png" alt="png icon" width="24" height="24">
 
-- NAS operating system running directly on TrueNAS, a ThinkCentre Tiny, providing network storage
+- NAS operating system was running directly on TrueNAS, a ThinkCentre Tiny, now moved to VM on Proxmox-1; providing network storage
 - web ui exposed through nginx proxy manager
 - web ui accessible from workstation with local connection only
 - access to SMB shares allowed only to iOS, Fedora, and backup-node

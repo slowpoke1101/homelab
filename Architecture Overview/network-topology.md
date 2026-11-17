@@ -70,11 +70,11 @@ The Flint2 runs in wireless access point mode, with LuCI still available to conf
 
 ## Physical Nodes
 
-- **OPNsense:** NUC7i5BNK firewall and router. The native NIC is the LAN parent interface and connects to the switch; the Realtek RTL8156-based Ugreen 2.5GbE USB Ethernet adapter connects to WAN.
-- **Proxmox-1:** ThinkCentre M75q Gen2 Production virtualization host.
-- **Proxmox-2:** ThinkCentre M75q Gen2 Staging/Testing Virtualization host.
-- **backup-node:** Raspberry Pi 4 used for backups.
-- **observer:** Raspberry Pi 4 used for metrics and log collection.
+- [**OPNsense**](../Nodes/opnsense.md): NUC7i5BNK firewall and router. The native NIC is the LAN parent interface and connects to the switch; the Realtek RTL8156-based Ugreen 2.5GbE USB Ethernet adapter connects to WAN.
+- [**Proxmox-1**](../Nodes/proxmox-1.md): ThinkCentre M75q Gen2 Production virtualization host.
+- [**Proxmox-2**](../Nodes/proxmox-2.md): ThinkCentre M75q Gen2 Staging/Testing Virtualization host.
+- [**backup-node**](../Nodes/backup-node.md): Raspberry Pi 4 used for backups.
+- [**observer**](../Nodes/observer.md): Raspberry Pi 4 used for metrics and log collection.
 - **Flint2:** GL.iNet Flint MT6000 running OpenWrt in access point mode.
-- **switch:** NETGEAR GS308EP managed switch with PoE+.
+- [**switch**](../Nodes/switch.md): NETGEAR GS308EP managed switch with PoE+.
 
