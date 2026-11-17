@@ -3,6 +3,6 @@
 - self-hosted replacement for apple keychain
 - running on the Docker VM
 - exposed through nginx proxy manager
-- accessible from iOS and Fedora only, local or remote(tailscale)
+- accessible only from iOS local or remote, and Fedora local
 ![webapp route](images/webapp-route.png)
 ![vaultwarden dashboard](images/vaultwardendash.png)

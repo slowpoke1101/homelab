@@ -21,16 +21,16 @@ The Docker VM currently runs:
 
 - AdGuard (Ad Blocking) <img src="Services/images/adguard-home.png" alt="png icon" width="24" height="24">
 - Excalidraw (Flowchart App) <img src="Services/images/excalidraw.png" alt="png icon" width="24" height="24">
-- Gitea (Git Server) <img src="Services/images/gitea.png" alt="png icon" width="24" height="24">
-- Immich (Photos App) <img src="Services/images/immich.png" alt="png icon" width="24" height="24">
-- LibreSpeed (Speed test) <img src="Services/images/librespeed.png" alt="png icon" width="24" height="24">
+- [Gitea](Services/gitea.md) (Git Server) <img src="Services/images/gitea.png" alt="png icon" width="24" height="24">
+- [Immich](Services/immich.md) (Photos App) <img src="Services/images/immich.png" alt="png icon" width="24" height="24">
+- [LibreSpeed](Services/librespeed.md) (Speed test) <img src="Services/images/librespeed.png" alt="png icon" width="24" height="24">
 - iPerf3 (Speed test)
-- Memos (Notes App) <img src="Services/images/memos.png" alt="png icon" width="24" height="24">
-- Nginx Proxy Manager (Reverse Proxy) <img src="Services/images/npm.png" alt="png icon" width="24" height="24">
-- StirlingPDF (PDF Editor) <img src="Services/images/stirling.png" alt="png icon" width="24" height="24">
-- Uptime Kuma (Uptime Monitor) <img src="Services/images/uptimekuma.png" alt="png icon" width="24" height="24">
-- Vaultwarden (Password Manager) <img src="Services/images/vaultwarden.png" alt="png icon" width="24" height="24">
-- Grafana (Dashboard for metris and logs) <img src="Services/images/grafana.png" alt="png icon" width="24" height="24">
+- [Memos](Services/memos.md) (Notes App) <img src="Services/images/memos.png" alt="png icon" width="24" height="24">
+- [Nginx Proxy Manager](Services/nginx-proxy-manager.md) (Reverse Proxy) <img src="Services/images/npm.png" alt="png icon" width="24" height="24">
+- [StirlingPDF](Services/stirlingPDF.md) (PDF Editor) <img src="Services/images/stirling.png" alt="png icon" width="24" height="24">
+- [Uptime Kuma](Services/uptimekuma.md) (Uptime Monitor) <img src="Services/images/uptimekuma.png" alt="png icon" width="24" height="24">
+- [Vaultwarden](Services/vaultwarden.md) (Password Manager) <img src="Services/images/vaultwarden.png" alt="png icon" width="24" height="24">
+- [Grafana](Services/grafana.md) (Dashboard for metris and logs) <img src="Services/images/grafana.png" alt="png icon" width="24" height="24">
 - cAdvisor (Container metrics) <img src="Services/images/cadvisor.png" alt="png icon" width="24" height="24">
 - Node Exporter (Host metrics)
 

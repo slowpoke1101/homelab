@@ -3,8 +3,8 @@
 - reverse proxy server terminating https connections for my web apps and management ui's
 - running on the Docker VM
 - exposed through nginx proxy manager
-- accessible from iOS and Fedora only, local or remote(tailscale)
+- accessible only from iOS local or remote, and Fedora local
 - selfsigned wildcard cert for self-hosted apps
-- access list restricted to phone, workstation and management hosts
+- access list restricted to phone, workstation
 ![webapp route](images/webapp-route.png)
 ![npm2 dashboard](images/npm2.png)
