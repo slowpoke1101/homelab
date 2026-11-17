@@ -75,6 +75,6 @@ The Flint2 runs in wireless access point mode, with LuCI still available to conf
 - [**Proxmox-2**](../Nodes/proxmox-2.md): ThinkCentre M75q Gen2 Staging/Testing Virtualization host.
 - [**backup-node**](../Nodes/backup-node.md): Raspberry Pi 4 used for backups.
 - [**observer**](../Nodes/observer.md): Raspberry Pi 4 used for metrics and log collection.
-- **Flint2:** GL.iNet Flint MT6000 running OpenWrt in access point mode.
+- [**Flint2**](../Nodes/flint2.md): GL.iNet Flint MT6000 running OpenWrt in access point mode.
 - [**switch**](../Nodes/switch.md): NETGEAR GS308EP managed switch with PoE+.
 
