@@ -26,7 +26,12 @@ Production and management rules include additional narrow exceptions for systems
 
 The management interfaces for OPNsense, TrueNAS, Proxmox, and the switch are restricted to the Fedora workstation on the management network. SSH is disabled on the infrastructure nodes where local console access is available. Access rules should be reviewed whenever a new administrative device or service is added.  
 SSH keys generated and placed on critical VMs and password authentication  
-disabled, allowing only Fedora Workstation remote access.
+disabled, allowing only Fedora Workstation remote access.  
+![access route](images/access-paths.png)
+
+## Remote Access
+
+Tailscale replaced the previous WireGuard and port-forwarding approach because the building WAN does not provide a public IP to the condo. The current tailnet includes OPNsense and iOS. iOS access is limited to TrueNAS SMB and selected Docker VM web applications, including Immich, Vaultwarden, and Memos.
 
 ## Detection And DNS
 
@@ -39,10 +44,6 @@ disabled, allowing only Fedora Workstation remote access.
 ## Reverse Proxy And Container Exposure
 
 Most web applications and services are accessed through Nginx Proxy Manager (NPM), which publishes the host ports for web access, terminates TLS/HTTPS, and routes requests to services over internal Docker networking. Other than NPM, application containers do not publish host ports. Monitoring containers such as cAdvisor and Node Exporter are exceptions: they expose host ports so the observer node can scrape their metrics.
-
-## Remote Access
-
-Tailscale replaced the previous WireGuard and port-forwarding approach because the building WAN does not provide a public IP to the condo. The current tailnet includes OPNsense and iOS. iOS access is limited to TrueNAS SMB and selected Docker VM web applications, including Immich, Vaultwarden, and Memos.
 
 ## Security Assumptions And Limitations
 
