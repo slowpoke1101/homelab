@@ -51,7 +51,7 @@ flowchart LR
     TrueNAS -->|rsync serveral times daily| Backup[backup-node]
 ```
 
-The Docker VM backs up its container data to TrueNAS. backup-node performs rsync backups of TrueNAS shares twice daily. This provides local redundancy across separate systems, while an off-site copy remains a future improvement.
+The Docker VM backs up its container data to TrueNAS. backup-node performs rsync backups of TrueNAS shares several times daily. This provides local redundancy across separate systems, while an off-site copy remains a future improvement.
 
 ## Monitoring Flow
 
