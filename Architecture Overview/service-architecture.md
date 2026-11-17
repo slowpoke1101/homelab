@@ -48,7 +48,7 @@ The Docker VM has SMB and NFS mounts configured through `/etc/fstab`. Other node
 ```mermaid
 flowchart LR
     Docker[Docker VM] -->|container backups| TrueNAS[TrueNAS]
-    TrueNAS -->|rsync twice daily| Backup[backup-node]
+    TrueNAS -->|rsync serveral times daily| Backup[backup-node]
 ```
 
 The Docker VM backs up its container data to TrueNAS. backup-node performs rsync backups of TrueNAS shares twice daily. This provides local redundancy across separate systems, while an off-site copy remains a future improvement.
