@@ -43,7 +43,8 @@ Tailscale replaced the previous WireGuard and port-forwarding approach because t
 
 ## Reverse Proxy And Container Exposure
 
-Most web applications and services are accessed through Nginx Proxy Manager (NPM), which publishes the host ports for web access, terminates TLS/HTTPS, and routes requests to services over internal Docker networking. Other than NPM, application containers do not publish host ports. Monitoring containers such as cAdvisor and Node Exporter are exceptions: they expose host ports so the observer node can scrape their metrics.
+Most web applications and services are accessed through Nginx Proxy Manager (NPM), which publishes the host ports for web access, terminates TLS/HTTPS, and routes requests to services over internal Docker networking. Other than NPM, application containers do not publish host ports. Monitoring containers such as cAdvisor and Node Exporter are exceptions: they expose host ports so the observer node can scrape their metrics.  
+![netopia exposure](images/netopia-exposure.png)  
 
 ## Security Assumptions And Limitations
 
