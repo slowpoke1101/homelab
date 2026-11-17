@@ -11,16 +11,18 @@
 - Raspberry Pi 4 serving as primary homelab server.
 - WireGuard VPN.
 - Pi-hole DNS filtering.
+- Nextcloud cloud storage
 
 ### Changed
 
-- Replaced native Pi-hole deployment with Dockerized Pi-hole and Unbound stack.
+- Replaced native Pi-hole deployment with Dockerized Pi-hole, Unbound and Nextcloud stack.
 - Developed changes in a VirtualBox staging environment before production deployment.
 
 ### Significance
 
 - Introduced change management practices through staging and testing.
 - First separation between development and production environments.  
+- Learned packetflow through linux kernel and configured firewall with iptables
 
 ---
 
@@ -38,6 +40,7 @@
 ### Changed
 
 - Added dedicated management, server, and user networks.
+- replaced Nextcloud with manually configured Samba SMB network storage.
 
 ### Significance
 
