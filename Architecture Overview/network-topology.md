@@ -47,9 +47,9 @@ The following table is the current physical layout on the switch. `PVID` is the 
 
 | Port | Connected device | PVID | Tagged VLANs |
 | --- | --- | --- | --- |
-| 1 | Proxmox-2 | 11 | 1, 4, 50, 88, 99 |
-| 2 | Proxmox-1 | 11 | 1, 4, 50, 88, 99 |
-| 3 | backup-node | 11 | None |
+| 1 | backup-node | 11 | None |
+| 2 | Proxmox-1 | 11 | 1, 4 |
+| 3 | Proxmox-2 | 11 | 1, 4, 50, 88, 99 |
 | 4 | Unused | 50 | None |
 | 5 | Unused | 50 | None |
 | 6 | observer | 11 | None |
