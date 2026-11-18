@@ -24,9 +24,10 @@ This is a learning environment, not an enterprise reference design. Its architec
 - [Architecture Overview](Architecture%20Overview/README.md) describes the current topology, security boundaries, and service placement.
 - [Nodes](Nodes/README.md) documents the physical systems and their roles.
 - [Service Architecture](Architecture%20Overview/service-architecture.md) describes application placement, storage dependencies, backups, and monitoring.
-- [Runbooks & Projects](Runbooks%20%26%20Projects/README.md) contains deployment and operating procedures, along with experiments and planned improvements.
+- [Runbooks](Runbooks/README.md) contains deployment and operating procedures, along with experiments and planned improvements.
 - [Troubleshooting](Troubleshooting/README.md) records investigations, causes, and fixes for problems encountered in the lab.
 - [Changelog](Changelog/CHANGELOG.md) tracks changes that affect the architecture, security, availability, or recovery.  
+- [Projects](Projects/README.md) describes and documents on-going and planned projects.
 
 ### Logical Network Topology  
   
